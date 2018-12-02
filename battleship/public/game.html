@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Battleship: a two player game</title>
+    <link rel="stylesheet" href="stylesheets/game.css">
+</head>
+
+<body>
+
+    <main>
+        <span id="playerside">
+            <span id="status">
+                <span id="statusbar"></span>
+            </span>
+
+            <table id="playergrid" border=3px>
+                <tr>
+                    <td id="P0" class="playergrid"></td>
+                    <td id="P1" class="playergrid">1</td>
+                    <td id="P2" class="playergrid">2</td>
+                    <td id="P3" class="playergrid">3</td>
+                    <td id="P4" class="playergrid">4</td>
+                    <td id="P5" class="playergrid">5</td>
+                    <td id="P6" class="playergrid">6</td>
+                    <td id="P7" class="playergrid">7</td>
+                    <td id="P8" class="playergrid">8</td>
+                    <td id="P9" class="playergrid">9</td>
+                    <td id="P10" class="playergrid">10</td>
+                </tr>
+                <tr>
+                    <td id="PA" class="playergrid">A</td>
+                    <td id="PA0" class="playergrid"></td>
+                    <td id="PA1" class="playergrid"></td>
+                    <td id="PA2" class="playergrid"></td>
+                    <td id="PA3" class="playergrid"></td>
+                    <td id="PA4" class="playergrid"></td>
+                    <td id="PA5" class="playergrid"></td>
+                    <td id="PA6" class="playergrid"></td>
+                    <td id="PA7" class="playergrid"></td>
+                    <td id="PA8" class="playergrid"></td>
+                    <td id="PA9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PB" class="playergrid">B</td>
+                    <td id="PB0" class="playergrid"></td>
+                    <td id="PB1" class="playergrid"></td>
+                    <td id="PB2" class="playergrid"></td>
+                    <td id="PB3" class="playergrid"></td>
+                    <td id="PB4" class="playergrid"></td>
+                    <td id="PB5" class="playergrid"></td>
+                    <td id="PB6" class="playergrid"></td>
+                    <td id="PB7" class="playergrid"></td>
+                    <td id="PB8" class="playergrid"></td>
+                    <td id="PB9" class="playergrid"></td>
+                </tr>
+                <tr>
+                    <td id="PC" class="playergrid">C</td>
+                    <td id="PC0" class="playergrid"></td>
+                    <td id="PC1" class="playergrid"></td>
+                    <td id="PC2" class="playergrid"></td>
+                    <td id="PC3" class="playergrid"></td>
+                    <td id="PC4" class="playergrid"></td>
+                    <td id="PC5" class="playergrid"></td>
+                    <td id="PC6" class="playergrid"></td>
+                    <td id="PC7" class="playergrid"></td>
+                    <td id="PC8" class="playergrid"></td>
+                    <td id="PC9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PD" class="playergrid">D</td>
+                    <td id="PD0" class="playergrid"></td>
+                    <td id="PD1" class="playergrid"></td>
+                    <td id="PD2" class="playergrid"></td>
+                    <td id="PD3" class="playergrid"></td>
+                    <td id="PD4" class="playergrid"></td>
+                    <td id="PD5" class="playergrid"></td>
+                    <td id="PD6" class="playergrid"></td>
+                    <td id="PD7" class="playergrid"></td>
+                    <td id="PD8" class="playergrid"></td>
+                    <td id="PD9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PE" class="playergrid">E</td>
+                    <td id="PE0" class="playergrid"></td>
+                    <td id="PE1" class="playergrid"></td>
+                    <td id="PE2" class="playergrid"></td>
+                    <td id="PE3" class="playergrid"></td>
+                    <td id="PE4" class="playergrid"></td>
+                    <td id="PE5" class="playergrid"></td>
+                    <td id="PE6" class="playergrid"></td>
+                    <td id="PE7" class="playergrid"></td>
+                    <td id="PE8" class="playergrid"></td>
+                    <td id="PE9" class="playergrid"></td>
+                </tr>
+                <tr>
+                    <td id="PF" class="playergrid">F</td>
+                    <td id="PF0" class="playergrid"></td>
+                    <td id="PF1" class="playergrid"></td>
+                    <td id="PF2" class="playergrid"></td>
+                    <td id="PF3" class="playergrid"></td>
+                    <td id="PF4" class="playergrid"></td>
+                    <td id="PF5" class="playergrid"></td>
+                    <td id="PF6" class="playergrid"></td>
+                    <td id="PF7" class="playergrid"></td>
+                    <td id="PF8" class="playergrid"></td>
+                    <td id="PF9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PG" class="playergrid">G</td>
+                    <td id="PG0" class="playergrid"></td>
+                    <td id="PG1" class="playergrid"></td>
+                    <td id="PG2" class="playergrid"></td>
+                    <td id="PG3" class="playergrid"></td>
+                    <td id="PG4" class="playergrid"></td>
+                    <td id="PG5" class="playergrid"></td>
+                    <td id="PG6" class="playergrid"></td>
+                    <td id="PG7" class="playergrid"></td>
+                    <td id="PG8" class="playergrid"></td>
+                    <td id="PG9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PH" class="playergrid">H</td>
+                    <td id="PH0" class="playergrid"></td>
+                    <td id="PH1" class="playergrid"></td>
+                    <td id="PH2" class="playergrid"></td>
+                    <td id="PH3" class="playergrid"></td>
+                    <td id="PH4" class="playergrid"></td>
+                    <td id="PH5" class="playergrid"></td>
+                    <td id="PH6" class="playergrid"></td>
+                    <td id="PH7" class="playergrid"></td>
+                    <td id="PH8" class="playergrid"></td>
+                    <td id="PH9" class="playergrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="PI" class="playergrid">I</td>
+                    <td id="PI0" class="playergrid"></td>
+                    <td id="PI1" class="playergrid"></td>
+                    <td id="PI2" class="playergrid"></td>
+                    <td id="PI3" class="playergrid"></td>
+                    <td id="PI4" class="playergrid"></td>
+                    <td id="PI5" class="playergrid"></td>
+                    <td id="PI6" class="playergrid"></td>
+                    <td id="PI7" class="playergrid"></td>
+                    <td id="PI8" class="playergrid"></td>
+                    <td id="PI9" class="playergrid"></td>
+                </tr>
+                <tr>
+                    <td id="PJ" class="playergrid">J</td>
+                    <td id="PJ0" class="playergrid"></td>
+                    <td id="PJ1" class="playergrid"></td>
+                    <td id="PJ2" class="playergrid"></td>
+                    <td id="PJ3" class="playergrid"></td>
+                    <td id="PJ4" class="playergrid"></td>
+                    <td id="PJ5" class="playergrid"></td>
+                    <td id="PJ6" class="playergrid"></td>
+                    <td id="PJ7" class="playergrid"></td>
+                    <td id="PJ8" class="playergrid"></td>
+                    <td id="PJ9" class="playergrid"></td>
+                </tr>
+            </table>
+        </span>
+        <span id=center>
+            Time Elapsed:
+        </span>
+        <span id="opponentside">
+
+            <table id="opponentgrid" border=3px>
+                <tr>
+                    <td id="0" class="opponentgrid"></td>
+                    <td id="1" class="opponentgrid">1</td>
+                    <td id="2" class="opponentgrid">2</td>
+                    <td id="3" class="opponentgrid">3</td>
+                    <td id="4" class="opponentgrid">4</td>
+                    <td id="5" class="opponentgrid">5</td>
+                    <td id="6" class="opponentgrid">6</td>
+                    <td id="7" class="opponentgrid">7</td>
+                    <td id="8" class="opponentgrid">8</td>
+                    <td id="9" class="opponentgrid">9</td>
+                    <td id="10" class="opponentgrid">10</td>
+                </tr>
+                <tr>
+                    <td id="A" class="opponentgrid">A</td>
+                    <td id="OA0" class="opponentgrid"></td>
+                    <td id="OA1" class="opponentgrid"></td>
+                    <td id="OA2" class="opponentgrid"></td>
+                    <td id="OA3" class="opponentgrid"></td>
+                    <td id="OA4" class="opponentgrid"></td>
+                    <td id="OA5" class="opponentgrid"></td>
+                    <td id="OA6" class="opponentgrid"></td>
+                    <td id="OA7" class="opponentgrid"></td>
+                    <td id="OA8" class="opponentgrid"></td>
+                    <td id="OA9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="OB" class="opponentgrid">B</td>
+                    <td id="OB0" class="opponentgrid"></td>
+                    <td id="OB1" class="opponentgrid"></td>
+                    <td id="OB2" class="opponentgrid"></td>
+                    <td id="OB3" class="opponentgrid"></td>
+                    <td id="OB4" class="opponentgrid"></td>
+                    <td id="OB5" class="opponentgrid"></td>
+                    <td id="OB6" class="opponentgrid"></td>
+                    <td id="OB7" class="opponentgrid"></td>
+                    <td id="OB8" class="opponentgrid"></td>
+                    <td id="OB9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="C" class="opponentgrid">C</td>
+                    <td id="OC0" class="opponentgrid"></td>
+                    <td id="OC1" class="opponentgrid"></td>
+                    <td id="OC2" class="opponentgrid"></td>
+                    <td id="OC3" class="opponentgrid"></td>
+                    <td id="OC4" class="opponentgrid"></td>
+                    <td id="OC5" class="opponentgrid"></td>
+                    <td id="OC6" class="opponentgrid"></td>
+                    <td id="OC7" class="opponentgrid"></td>
+                    <td id="OC8" class="opponentgrid"></td>
+                    <td id="OC9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="D" class="opponentgrid">D</td>
+                    <td id="OD0" class="opponentgrid"></td>
+                    <td id="OD1" class="opponentgrid"></td>
+                    <td id="OD2" class="opponentgrid"></td>
+                    <td id="OD3" class="opponentgrid"></td>
+                    <td id="OD4" class="opponentgrid"></td>
+                    <td id="OD5" class="opponentgrid"></td>
+                    <td id="OD6" class="opponentgrid"></td>
+                    <td id="OD7" class="opponentgrid"></td>
+                    <td id="OD8" class="opponentgrid"></td>
+                    <td id="OD9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="E" class="opponentgrid">E</td>
+                    <td id="OE0" class="opponentgrid"></td>
+                    <td id="OE1" class="opponentgrid"></td>
+                    <td id="OE2" class="opponentgrid"></td>
+                    <td id="OE3" class="opponentgrid"></td>
+                    <td id="OE4" class="opponentgrid"></td>
+                    <td id="OE5" class="opponentgrid"></td>
+                    <td id="OE6" class="opponentgrid"></td>
+                    <td id="OE7" class="opponentgrid"></td>
+                    <td id="OE8" class="opponentgrid"></td>
+                    <td id="OE9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="F" class="opponentgrid">F</td>
+                    <td id="OF0" class="opponentgrid"></td>
+                    <td id="OF1" class="opponentgrid"></td>
+                    <td id="OF2" class="opponentgrid"></td>
+                    <td id="OF3" class="opponentgrid"></td>
+                    <td id="OF4" class="opponentgrid"></td>
+                    <td id="OF5" class="opponentgrid"></td>
+                    <td id="OF6" class="opponentgrid"></td>
+                    <td id="OF7" class="opponentgrid"></td>
+                    <td id="OF8" class="opponentgrid"></td>
+                    <td id="OF9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+
+                    <td id="G" class="opponentgrid">G</td>
+                    <td id="OG0" class="opponentgrid"></td>
+                    <td id="OG1" class="opponentgrid"></td>
+                    <td id="OG2" class="opponentgrid"></td>
+                    <td id="OG3" class="opponentgrid"></td>
+                    <td id="OG4" class="opponentgrid"></td>
+                    <td id="OG5" class="opponentgrid"></td>
+                    <td id="OG6" class="opponentgrid"></td>
+                    <td id="OG7" class="opponentgrid"></td>
+                    <td id="OG8" class="opponentgrid"></td>
+                    <td id="OG9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="H" class="opponentgrid">H</td>
+                    <td id="OH0" class="opponentgrid"></td>
+                    <td id="OH1" class="opponentgrid"></td>
+                    <td id="OH2" class="opponentgrid"></td>
+                    <td id="OH3" class="opponentgrid"></td>
+                    <td id="OH4" class="opponentgrid"></td>
+                    <td id="OH5" class="opponentgrid"></td>
+                    <td id="OH6" class="opponentgrid"></td>
+                    <td id="OH7" class="opponentgrid"></td>
+                    <td id="OH8" class="opponentgrid"></td>
+                    <td id="OH9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="I" class="opponentgrid">I</td>
+                    <td id="OI0" class="opponentgrid"></td>
+                    <td id="OI1" class="opponentgrid"></td>
+                    <td id="OI2" class="opponentgrid"></td>
+                    <td id="OI3" class="opponentgrid"></td>
+                    <td id="OI4" class="opponentgrid"></td>
+                    <td id="OI5" class="opponentgrid"></td>
+                    <td id="OI6" class="opponentgrid"></td>
+                    <td id="OI7" class="opponentgrid"></td>
+                    <td id="OI8" class="opponentgrid"></td>
+                    <td id="OI9" class="opponentgrid"></td>
+                </tr>
+                <tr>
+                    <td id="J" class="opponentgrid">J</td>
+                    <td id="OJ0" class="opponentgrid"></td>
+                    <td id="OJ1" class="opponentgrid"></td>
+                    <td id="OJ2" class="opponentgrid"></td>
+                    <td id="OJ3" class="opponentgrid"></td>
+                    <td id="OJ4" class="opponentgrid"></td>
+                    <td id="OJ5" class="opponentgrid"></td>
+                    <td id="OJ6" class="opponentgrid"></td>
+                    <td id="OJ7" class="opponentgrid"></td>
+                    <td id="OJ8" class="opponentgrid"></td>
+                    <td id="OJ9" class="opponentgrid"></td>
+                </tr>
+            </table>
+        </span>
+    </main>
+    <script type="text/javascript" src="javascripts/game.js"></script>
+</body>
+
+</html>
