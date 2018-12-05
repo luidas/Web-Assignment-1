@@ -47,6 +47,9 @@ function mouseOver(e) {
             if (testBoard[targetY][targetX] == 1) {
                 e.target.style.background = "#000000";
             }
+            else if (testBoard[targetY][targetX] == 2) {
+                e.target.style.background = "#86E7F6";
+            }
             
             e.target.style.background = "#838383";
         }
@@ -57,6 +60,20 @@ function mouseOver(e) {
                 boxes.push(e.target);
                 if (testBoard[targetY][targetX] == 1) {
                     while (boxes.length != 0) {
+                        var current = boxes.pop();
+                        if(current.style.background == "#86E7F6"){
+                            current.style.background == "#86E7F6";
+                        }
+                        else{
+                        boxes.pop().style.background = "#FFFFFF";
+                        }
+                        console.log("failed drag");
+
+                    }
+                    dragging = false;
+                }
+                else if (testBoard[targetY][targetX] == 1) {
+                    while (boxes.length != 0) {
                         boxes.pop().style.background = "#FFFFFF";
 
                         console.log("failed drag");
@@ -64,7 +81,8 @@ function mouseOver(e) {
                     }
                     dragging = false;
                 }
-                if (targetY != selectionY && targetX != selectionX) {
+                
+                else if (targetY != selectionY && targetX != selectionX) {
                     while (boxes.length != 0) {
                         boxes.pop().style.background = "#FFFFFF";
 
@@ -88,16 +106,12 @@ function mouseOut(e) {
         if (testBoard[targetY][targetX] == 1) {
             e.target.style.background = "#000000";
         }
+        else if (testBoard[targetY][targetX] == 2) {
+            e.target.style.background = "#86E7F6";
+        }
 
         else if (!dragging) {
             e.target.style.background = "#FFFFFF";
-        }
-        else if (targetY != selectionY && targetX != selectionX) {
-            while (boxes.length != 0) {
-                boxes.pop().style.background = "#FFFFFF";
-                selected = 0;
-                dragging = false;
-            }
         }
     }
 }
@@ -125,6 +139,40 @@ function selected(e) {
                 testBoard[targetY][targetX] = 1;
                 ships[0]--;
                 boxes.pop();
+                if(targetY > 0){
+                    testBoard[targetY-1][targetX] = 2;
+                    playergrid[targetY-1][targetX].style.background = "#86E7F6";
+                }
+                if(targetY < 9){
+                    testBoard[targetY+1][targetX] = 2;
+                    playergrid[targetY+1][targetX].style.background = "#86E7F6";
+                }
+                
+                if(targetX > 0){
+                    testBoard[targetY][targetX-1] = 2;
+                    playergrid[targetY][targetX-1].style.background = "#86E7F6";
+                }
+                
+                if(targetX < 9){
+                    testBoard[targetY][targetX+1] = 2;
+                    playergrid[targetY][targetX+1].style.background = "#86E7F6";
+                }
+                if(targetX < 9 && targetY < 9){
+                    testBoard[targetY+1][targetX+1] = 2;
+                    playergrid[targetY+1][targetX+1].style.background = "#86E7F6";
+                }
+                if(targetX > 0 && targetY > 0){
+                    testBoard[targetY-1][targetX-1] = 2;
+                    playergrid[targetY-1][targetX-1].style.background = "#86E7F6";
+                }
+                if(targetX < 9 && targetY > 0){
+                    testBoard[targetY+1][targetX-1] = 2;
+                    playergrid[targetY+1][targetX-1].style.background = "#86E7F6";
+                }
+                if(targetX > 0 && targetY < 9){
+                    testBoard[targetY-1][targetX+1] = 2;
+                    playergrid[targetY-1][targetX+1].style.background = "#86E7F6";
+                }
             }
             else if (targetY == selectionY && Math.abs(diffrenceX) == selected) {
 
