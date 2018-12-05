@@ -83,7 +83,20 @@ function selected(e) {
 
         diffrenceX = Math.abs(targetX - selectionX);
         diffrenceY = Math.abs(targetY - selectionY);
-        if (targetX == selectionX && targetY == selectionY && selected == 0) {
+        if (targetX == selectionX && targetY == selectionY && selected == 0 && ships[0] > 0) {
+            testBoard[targetX][selectionY] = 1;
+            e.target.appendChild(document.createTextNode("X"));
+            ships[0]--;
+        }
+        else if (targetX == selectionX) {
+            if(diffrenceX == selected){
+                if(ships[selected] > 0){
+                    for(var i = 0; i < selected+1; i++){
+                        testBoard[targetX][targetY] = 1;
+                        targetX = 
+                    }
+                }
+            }
             testBoard[targetX][selectionY] = 1;
             e.target.appendChild(document.createTextNode("X"));
         }
