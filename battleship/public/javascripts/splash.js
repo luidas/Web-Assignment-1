@@ -37,7 +37,7 @@ var diffrenceX = 0;
 var diffrenceY = 0;
 var ships = [4, 3, 2, 1];
 var selected = 0
-
+var boxes = [];
 function mouseOver(e) {
 
     if (e.target.id.substring(0, 1) == "P") {
@@ -50,6 +50,18 @@ function mouseOver(e) {
             if (dragging) {
                 selected++;
                 console.log(selected);
+                boxes.push(e.target);
+
+                if (targetY != selectionY && targetX != selectionX) {
+                    while (boxes.length != 0) {
+                        boxes.pop().style.background = "#FFFFFF";
+                        
+                    console.log("failed drag");
+                        
+                    }
+                    dragging = false;
+                }
+
             }
             e.target.style.background = "#838383";
         }
@@ -63,8 +75,13 @@ function mouseOut(e) {
             e.target.style.background = "#000000";
         }
         else if (!dragging) {
-            if (e.target.id.substring(0, 1) == "P")
-                e.target.style.background = "#FFFFFF";
+            e.target.style.background = "#FFFFFF";
+        }
+        else if (targetY != selectionY && targetX != selectionX) {
+            while (boxes.length != 0) {
+                boxes.pop().style.background = "#FFFFFF";
+                dragging = false;
+            }
         }
     }
 }
@@ -75,6 +92,7 @@ function select(e) {
         selectionY = id.charCodeAt(1) - 65;
         selectionX = id.charCodeAt(2) - 48;
         e.target.style.background = "#000000";
+        boxes.push(e.target);
         dragging = true;
     }
 }
@@ -87,20 +105,17 @@ function selected(e) {
 
         diffrenceX = targetX - selectionX;
         diffrenceY = targetY - selectionY;
-        console.log(targetY);
-        console.log(selectionY);
-        console.log(selected);
-        console.log(diffrenceY);
         if (targetX == selectionX && targetY == selectionY && selected == 0 && ships[0] > 0) {
             testBoard[targetY][targetX] = 1;
             ships[0]--;
+            boxes.pop();
         }
         else if (targetY == selectionY && Math.abs(diffrenceX) == selected) {
-            
+
             if (ships[selected] > 0) {
                 for (var i = 0; i < selected + 1; i++) {
                     testBoard[targetY][targetX] = 1;
-                    console.log("10");
+                    boxes.pop();
                     playergrid[targetY][targetX].style.background = "#000000";
                     if (diffrenceX < 0) {
                         targetX++;
@@ -109,7 +124,7 @@ function selected(e) {
                 }
                 ships[selected]--;
             }
-            else{
+            else {
                 for (var i = 0; i < selected + 1; i++) {
                     console.log("10");
                     playergrid[targetY][targetX].style.background = "#FFFFFF";
@@ -121,12 +136,13 @@ function selected(e) {
             }
         }
         else if (targetX == selectionX && Math.abs(diffrenceY) == selected) {
-            
+
             if (ships[selected] > 0) {
                 for (var i = 0; i < selected + 1; i++) {
                     testBoard[targetY][targetX] = 1;
                     console.log("10");
                     playergrid[targetY][targetX].style.background = "#000000";
+                    boxes.pop();
                     if (diffrenceY < 0) {
                         targetY++;
                     }
@@ -134,7 +150,7 @@ function selected(e) {
                 }
                 ships[selected]--;
             }
-            else{
+            else {
                 for (var i = 0; i < selected + 1; i++) {
                     console.log("10");
                     playergrid[targetY][targetX].style.background = "#FFFFFF";
@@ -145,7 +161,7 @@ function selected(e) {
                 }
             }
         }
-        
+
 
         selected = 0;
         e.target.style.background = "#000000";
