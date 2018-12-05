@@ -41,9 +41,9 @@ var selected = 0
 function mouseOver(e) {
 
     if (e.target.id.substring(0, 1) == "P") {
-        targetX = e.target.id.charCodeAt(1) - 65;
-        targetY = e.target.id.charCodeAt(2) - 48;
-        if (testBoard[targetX][targetY]==1) {
+        targetY = e.target.id.charCodeAt(1) - 65;
+        targetX = e.target.id.charCodeAt(2) - 48;
+        if (testBoard[targetY][targetX] == 1) {
             e.target.style.background = "#000000";
         }
         else {
@@ -56,20 +56,24 @@ function mouseOver(e) {
     }
 }
 function mouseOut(e) {
-    if (e.target.innerText == 'X') {
-        e.target.style.background = "#000000";
-    }
-    else if (!dragging) {
-        if (e.target.id.substring(0, 1) == "P")
-            e.target.style.background = "#FFFFFF";
+    if (e.target.id.substring(0, 1) == "P") {
+        targetY = e.target.id.charCodeAt(1) - 65;
+        targetX = e.target.id.charCodeAt(2) - 48;
+        if (testBoard[targetY][targetX] == 1) {
+            e.target.style.background = "#000000";
+        }
+        else if (!dragging) {
+            if (e.target.id.substring(0, 1) == "P")
+                e.target.style.background = "#FFFFFF";
+        }
     }
 }
 function select(e) {
     console.log(selected);
     if (e.target.id.substring(0, 1) == "P") {
         var id = e.target.id;
-        selectionX = id.charCodeAt(1) - 65;
-        selectionY = id.charCodeAt(2) - 48;
+        selectionY = id.charCodeAt(1) - 65;
+        selectionX = id.charCodeAt(2) - 48;
         e.target.style.background = "#000000";
         dragging = true;
     }
@@ -78,28 +82,70 @@ function selected(e) {
 
     if (e.target.id.substring(0, 1) == "P") {
         var id = e.target.id;
-        targetX = id.charCodeAt(1) - 65;
-        targetY = id.charCodeAt(2) - 48;
+        targetY = id.charCodeAt(1) - 65;
+        targetX = id.charCodeAt(2) - 48;
 
-        diffrenceX = Math.abs(targetX - selectionX);
-        diffrenceY = Math.abs(targetY - selectionY);
+        diffrenceX = targetX - selectionX;
+        diffrenceY = targetY - selectionY;
+        console.log(targetY);
+        console.log(selectionY);
+        console.log(selected);
+        console.log(diffrenceY);
         if (targetX == selectionX && targetY == selectionY && selected == 0 && ships[0] > 0) {
-            testBoard[targetX][selectionY] = 1;
-            e.target.appendChild(document.createTextNode("X"));
+            testBoard[targetY][targetX] = 1;
             ships[0]--;
         }
-        else if (targetX == selectionX) {
-            if(diffrenceX == selected){
-                if(ships[selected] > 0){
-                    for(var i = 0; i < selected+1; i++){
-                        testBoard[targetX][targetY] = 1;
-                        targetX = 
+        else if (targetY == selectionY && Math.abs(diffrenceX) == selected) {
+            
+            if (ships[selected] > 0) {
+                for (var i = 0; i < selected + 1; i++) {
+                    testBoard[targetY][targetX] = 1;
+                    console.log("10");
+                    playergrid[targetY][targetX].style.background = "#000000";
+                    if (diffrenceX < 0) {
+                        targetX++;
                     }
+                    else targetX--;;
+                }
+                ships[selected]--;
+            }
+            else{
+                for (var i = 0; i < selected + 1; i++) {
+                    console.log("10");
+                    playergrid[targetY][targetX].style.background = "#FFFFFF";
+                    if (diffrenceY < 0) {
+                        targetX--;
+                    }
+                    else targetX++;
                 }
             }
-            testBoard[targetX][selectionY] = 1;
-            e.target.appendChild(document.createTextNode("X"));
         }
+        else if (targetX == selectionX && Math.abs(diffrenceY) == selected) {
+            
+            if (ships[selected] > 0) {
+                for (var i = 0; i < selected + 1; i++) {
+                    testBoard[targetY][targetX] = 1;
+                    console.log("10");
+                    playergrid[targetY][targetX].style.background = "#000000";
+                    if (diffrenceY < 0) {
+                        targetY++;
+                    }
+                    else targetY--;;
+                }
+                ships[selected]--;
+            }
+            else{
+                for (var i = 0; i < selected + 1; i++) {
+                    console.log("10");
+                    playergrid[targetY][targetX].style.background = "#FFFFFF";
+                    if (diffrenceY < 0) {
+                        targetY++;
+                    }
+                    else targetY--;
+                }
+            }
+        }
+        
 
         selected = 0;
         e.target.style.background = "#000000";
