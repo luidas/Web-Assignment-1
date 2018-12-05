@@ -41,8 +41,9 @@ var selected = 0
 function mouseOver(e) {
 
     if (e.target.id.substring(0, 1) == "P") {
-        console.log(e.target.textcontent);
-        if (e.target.textcontent == "X") {
+        targetX = e.target.id.charCodeAt(1) - 65;
+        targetY = e.target.id.charCodeAt(2) - 48;
+        if (testBoard[targetX][targetY]==1) {
             e.target.style.background = "#000000";
         }
         else {
@@ -84,8 +85,7 @@ function selected(e) {
         diffrenceY = Math.abs(targetY - selectionY);
         if (targetX == selectionX && targetY == selectionY && selected == 0) {
             testBoard[targetX][selectionY] = 1;
-            console.log("placed");
-            e.target.placed = "X";
+            e.target.appendChild(document.createTextNode("X"));
         }
 
         selected = 0;
