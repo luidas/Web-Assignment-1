@@ -170,43 +170,63 @@ function selected(e) {
                         playergrid[targetY - 1][targetX - 1].style.background = "#86E7F6";
                     }
                     if (targetX < 9 && targetY > 0) {
-                        testBoard[targetY + 1][targetX - 1] = 2;
-                        playergrid[targetY + 1][targetX - 1].style.background = "#86E7F6";
-                    }
-                    if (targetX > 0 && targetY < 9) {
                         testBoard[targetY - 1][targetX + 1] = 2;
                         playergrid[targetY - 1][targetX + 1].style.background = "#86E7F6";
+                    }
+                    if (targetX > 0 && targetY < 9) {
+                        testBoard[targetY + 1][targetX - 1] = 2;
+                        playergrid[targetY + 1][targetX - 1].style.background = "#86E7F6";
                     }
                 }
                 else if (targetY == selectionY && Math.abs(diffrenceX) == selected) {
 
                     if (ships[selected] > 0) {
                         if (diffrenceX > 0) {
-                            if (targetX > 0 && targetY > 0) {
-                                testBoard[targetY - 1][targetX - 1] = 2;
-                                playergrid[targetY - 1][targetX - 1].style.background = "#86E7F6";
+                            if (selectionX > 0) {
+                                testBoard[selectionY][selectionX - 1] = 2;
+                                playergrid[selectionY][selectionX - 1].style.background = "#86E7F6";
                             }
-                            if (targetX > 0) {
-                                testBoard[targetY][targetX - 1] = 2;
-                                playergrid[targetY][targetX - 1].style.background = "#86E7F6";
+                            if (selectionX > 0 && selectionY > 0) {
+                                testBoard[selectionY - 1][selectionX - 1] = 2;
+                                playergrid[selectionY - 1][selectionX - 1].style.background = "#86E7F6";
                             }
-                            if (targetY > 0) {
-                                testBoard[targetY - 1][targetX] = 2;
-                                playergrid[targetY - 1][targetX].style.background = "#86E7F6";
+                            if (selectionX > 0 && selectionY < 9) {
+                                testBoard[selectionY + 1][selectionX - 1] = 2;
+                                playergrid[selectionY + 1][selectionX - 1].style.background = "#86E7F6";
                             }
-                            for (var i = 0; i < selected + 1; i++) {
-                                testBoard[targetY][targetX] = 1;
-                                boxes.pop();
-                                playergrid[targetY][targetX].style.background = "#000000";
 
-                                if (diffrenceX < 0) {
-                                    targetX++;
-                                }
-                                else targetX--;;
+                            if (targetX < 9) {
+                                testBoard[selectionY][targetX + 1] = 2;
+                                playergrid[selectionY][targetX + 1].style.background = "#86E7F6";
                             }
-                            ships[selected]--;
+                            if (targetX < 9 && selectionY > 0) {
+                                testBoard[selectionY - 1][targetX + 1] = 2;
+                                playergrid[selectionY - 1][targetX + 1].style.background = "#86E7F6";
+                            }
+                            if (targetX < 9 && selectionY < 9) {
+                                testBoard[selectionY + 1][targetX + 1] = 2;
+                                playergrid[selectionY + 1][targetX + 1].style.background = "#86E7F6";
+                            }
+                        }
+                        for (var i = 0; i < selected + 1; i++) {
+                            if (selectionY > 0) {
+                                testBoard[selectionY - 1][targetX] = 2;
+                                playergrid[selectionY - 1][targetX].style.background = "#86E7F6";
+                            }
+                            if (selectionY < 9) {
+                                testBoard[selectionY + 1][targetX] = 2;
+                                playergrid[selectionY + 1][targetX].style.background = "#86E7F6";
+                            }
+                            testBoard[targetY][targetX] = 1;
+                            boxes.pop();
+                            playergrid[targetY][targetX].style.background = "#000000";
+                            if (diffrenceX < 0) {
+                                targetX++;
+                            }
+                            else targetX--;;
 
                         }
+                        ships[selected]--;
 
                     }
                     else {
@@ -214,7 +234,7 @@ function selected(e) {
                             console.log("10");
                             boxes.pop();
                             playergrid[targetY][targetX].style.background = "#FFFFFF";
-                            if (diffrenceY < 0) {
+                            if (diffrenceX < 0) {
                                 targetX--;
                             }
                             else targetX++;
