@@ -307,7 +307,6 @@ function place(e) {
                         while (boxes.length != 0) {
                             var current = boxes.pop();
                             current.style.background = "#FFFFFF";
-                            console.log("white");
                         }
                     }
                 }
