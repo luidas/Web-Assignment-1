@@ -75,13 +75,13 @@ function mouseOver(e) {
                 else if (testBoard[targetY][targetX] == 2) {
                     while (boxes.length != 0) {
                         var current = boxes.pop();
-                        if (current.style.background == "#86E7F6") {
+                        if (current.style.background == "#86E7F6"|| current.style.background == "#000000") {
                             current.style.background == "#86E7F6";
+                            
                         }
                         else {
                             current.style.background = "#FFFFFF";
                         }
-                        console.log("failed drag");
 
                     }
                     dragging = false;
@@ -125,9 +125,14 @@ function select(e) {
         var id = e.target.id;
         selectionY = id.charCodeAt(1) - 65;
         selectionX = id.charCodeAt(2) - 48;
+        if(testBoard[selectionY][selectionX]==2){
+            
+        }
+        else{
         e.target.style.background = "#000000";
         boxes.push(e.target);
         dragging = true;
+        }
     }
 }
 function selected(e) {
@@ -208,6 +213,33 @@ function selected(e) {
                                 playergrid[selectionY + 1][targetX + 1].style.background = "#86E7F6";
                             }
                         }
+                        else if (diffrenceX < 0); {
+                            if (targetX > 0) {
+                                testBoard[selectionY][targetX - 1] = 2;
+                                playergrid[selectionY][targetX - 1].style.background = "#86E7F6";
+                            }
+                            if (targetX > 0 && selectionY > 0) {
+                                testBoard[selectionY - 1][targetX - 1] = 2;
+                                playergrid[selectionY - 1][targetX - 1].style.background = "#86E7F6";
+                            }
+                            if (targetX > 0 && selectionY < 9) {
+                                testBoard[selectionY + 1][targetX - 1] = 2;
+                                playergrid[selectionY + 1][targetX - 1].style.background = "#86E7F6";
+                            }
+
+                            if (selectionX < 9) {
+                                testBoard[selectionY][selectionX + 1] = 2;
+                                playergrid[selectionY][selectionX + 1].style.background = "#86E7F6";
+                            }
+                            if (selectionX < 9 && selectionY > 0) {
+                                testBoard[selectionY - 1][selectionX + 1] = 2;
+                                playergrid[selectionY - 1][selectionX + 1].style.background = "#86E7F6";
+                            }
+                            if (selectionX < 9 && selectionY < 9) {
+                                testBoard[selectionY + 1][selectionX + 1] = 2;
+                                playergrid[selectionY + 1][selectionX + 1].style.background = "#86E7F6";
+                            }
+                        }
                         for (var i = 0; i < selected + 1; i++) {
                             if (selectionY > 0) {
                                 testBoard[selectionY - 1][targetX] = 2;
@@ -230,26 +262,82 @@ function selected(e) {
 
                     }
                     else {
-                        for (var i = 0; i < selected + 1; i++) {
-                            console.log("10");
-                            boxes.pop();
-                            playergrid[targetY][targetX].style.background = "#FFFFFF";
-                            if (diffrenceX < 0) {
-                                targetX--;
-                            }
-                            else targetX++;
+                        while (boxes.length != 0) {
+                            var current = boxes.pop();
+                            current.style.background = "#FFFFFF";
+                            console.log("white");   
                         }
                     }
                 }
                 else if (targetX == selectionX && Math.abs(diffrenceY) == selected) {
 
                     if (ships[selected] > 0) {
+                        if (diffrenceY > 0) {
+                            if (selectionY > 0) {
+                                testBoard[selectionY - 1][selectionX] = 2;
+                                playergrid[selectionY - 1][selectionX].style.background = "#86E7F6";
+                            }
+                            if (selectionY > 0 && selectionX > 0) {
+                                testBoard[selectionY - 1][selectionX - 1] = 2;
+                                playergrid[selectionY - 1][selectionX - 1].style.background = "#86E7F6";
+                            }
+                            if (selectionY > 0 && selectionX < 9) {
+                                testBoard[selectionY - 1][selectionX + 1] = 2;
+                                playergrid[selectionY - 1][selectionX + 1].style.background = "#86E7F6";
+                            }
 
+                            if (targetY < 9) {
+                                testBoard[targetY + 1][selectionX] = 2;
+                                playergrid[targetY + 1][selectionX].style.background = "#86E7F6";
+                            }
+                            if (targetY < 9 && selectionX > 0) {
+                                testBoard[targetY + 1][selectionX - 1] = 2;
+                                playergrid[targetY + 1][selectionX - 1].style.background = "#86E7F6";
+                            }
+                            if (targetY < 9 && selectionX < 9) {
+                                testBoard[targetY + 1][selectionX + 1] = 2;
+                                playergrid[targetY + 1][selectionX + 1].style.background = "#86E7F6";
+                            }
+                        }
+                        else if (diffrenceY < 0); {
+                            if (targetY > 0) {
+                                testBoard[targetY-1][selectionX] = 2;
+                                playergrid[targetY-1][selectionX].style.background = "#86E7F6";
+                            }
+                            if (targetY > 0 && selectionX > 0) {
+                                testBoard[targetY - 1][selectionX - 1] = 2;
+                                playergrid[targetY - 1][selectionX - 1].style.background = "#86E7F6";
+                            }
+                            if (targetY > 0 && selectionX < 9) {
+                                testBoard[targetY - 1][selectionX + 1] = 2;
+                                playergrid[targetY - 1][selectionX + 1].style.background = "#86E7F6";
+                            }
+
+                            if (selectionY < 9) {
+                                testBoard[selectionY+1][selectionX] = 2;
+                                playergrid[selectionY+1][selectionX].style.background = "#86E7F6";
+                            }
+                            if (selectionY < 9 && selectionX > 0) {
+                                testBoard[selectionY + 1][selectionX - 1] = 2;
+                                playergrid[selectionY + 1][selectionX - 1].style.background = "#86E7F6";
+                            }
+                            if (selectionY < 9 && selectionX < 9) {
+                                testBoard[selectionY + 1][selectionX + 1] = 2;
+                                playergrid[selectionY + 1][selectionX + 1].style.background = "#86E7F6";
+                            }
+                        }
                         for (var i = 0; i < selected + 1; i++) {
+                            if (selectionX > 0) {
+                                testBoard[targetY][selectionX - 1] = 2;
+                                playergrid[targetY][selectionX - 1].style.background = "#86E7F6";
+                            }
+                            if (selectionX < 9) {
+                                testBoard[targetY][selectionX + 1] = 2;
+                                playergrid[targetY][selectionX + 1].style.background = "#86E7F6";
+                            }
                             testBoard[targetY][targetX] = 1;
-                            playergrid[targetY][targetX].style.background = "#000000";
                             boxes.pop();
-
+                            playergrid[targetY][targetX].style.background = "#000000";
                             if (diffrenceY < 0) {
                                 targetY++;
                             }
@@ -259,13 +347,9 @@ function selected(e) {
                         ships[selected]--;
                     }
                     else {
-                        for (var i = 0; i < selected + 1; i++) {
-                            boxes.pop();
-                            playergrid[targetY][targetX].style.background = "#FFFFFF";
-                            if (diffrenceY < 0) {
-                                targetY++;
-                            }
-                            else targetY--;
+                        while (boxes.length != 0) {
+                            var current = boxes.pop();
+                            current.style.background = "#FFFFFF";
                         }
                     }
                 }
@@ -286,6 +370,19 @@ function selected(e) {
 
                 selected = 0;
                 dragging = false;
+                console.log("placed");
+                if(ships[0] == 0 && ships[1] == 0 && ships[2] == 0 && ships[3] == 0){
+                    for(var i = 0; i < testBoard.length; i++){
+                        for(var j = 0; j < testBoard[i].length; j++){
+                            if(testBoard[i][j]==0){
+                                testBoard[i][j] = 2;
+                                
+                                playergrid[i][j].style.background = "#86E7F6";
+                            }
+                        }
+
+                    }
+                }
 
             }
             else {
