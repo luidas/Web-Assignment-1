@@ -34,6 +34,7 @@ playerBoard.addEventListener("mouseup", place);
 
 
 
+
 var dragging = false;
 var selectionX = 0;
 var selectionY = 0;
@@ -44,6 +45,8 @@ var diffrenceY = 0;
 var ships = [4, 3, 2, 1];
 var selected = 0
 var boxes = [];
+
+
 
 //Function for mouseover of a playergrid's object
 function mouseOver(e) {
@@ -466,3 +469,4 @@ function place(e) {
         }
     }
 }
+

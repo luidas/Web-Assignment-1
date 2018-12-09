@@ -24,7 +24,7 @@
         data: null
     };
 
-       /* 
+    /* 
      * Player to server OR server to Player: guessed tile 
      */
     exports.T_MAKE_A_GUESS = "MAKE-A-GUESS";         
