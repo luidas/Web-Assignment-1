@@ -1,5 +1,17 @@
 // Creating variables for the board creation
+var playerBoard = document.getElementById('playergrid');
 var playergrid = new Array(10);
+var dragging = false;
+var selectionX = 0;
+var selectionY = 0;
+var targetX = 0;
+var targetY = 0;
+var diffrenceX = 0;
+var diffrenceY = 0;
+var ships = [4, 3, 2, 1];
+var selected = 0
+var boxes = [];
+
 // Creating a board array for players ships.
 var testBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -25,25 +37,10 @@ for (var i = 0; i < playergrid.length; i++) {
 }
 
 //Adding event listeners for the splash screen
-
-var playerBoard = document.getElementById('playergrid');
 playerBoard.addEventListener("mouseover", mouseOver);
 playerBoard.addEventListener("mouseout", mouseOut);
 playerBoard.addEventListener("mousedown", select, false);
 playerBoard.addEventListener("mouseup", place);
-
-
-
-var dragging = false;
-var selectionX = 0;
-var selectionY = 0;
-var targetX = 0;
-var targetY = 0;
-var diffrenceX = 0;
-var diffrenceY = 0;
-var ships = [4, 3, 2, 1];
-var selected = 0
-var boxes = [];
 
 //Function for mouseover of a playergrid's object
 function mouseOver(e) {
