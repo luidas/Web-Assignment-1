@@ -13,6 +13,8 @@ var selected = 0
 var boxes = [];
 var playButton = document.getElementById('play');
 playButton.onclick;
+var socket = new WebSocket("ws://localhost:3000");
+
 // Creating a board array for players ships.
 var testBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
