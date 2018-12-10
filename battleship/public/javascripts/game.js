@@ -1,3 +1,6 @@
+function GameState() {
+    this.playerType = null;
+}
 
 var playerBoard = document.getElementById('playergrid');
 var opponentBoard = document.getElementById('opponentgrid')
@@ -44,7 +47,7 @@ function shoot(e) {
         var column = id.charCodeAt(2) - 48;
         if (testBoard[row][column] == 1) {
             testBoard[row][column] = 2;
-            e.target.style.background ='#F06969';
+            e.target.style.background = '#F06969';
 
             e.target.appendChild(document.createTextNode("X"));
         }
@@ -52,7 +55,7 @@ function shoot(e) {
             testBoard[row][column] = 3;
 
             e.target.appendChild(document.createTextNode("O"));
-            e.target.style.background= "#86E7F6";
+            e.target.style.background = "#86E7F6";
         }
     }
     e.stopPropagation();
@@ -60,4 +63,21 @@ function shoot(e) {
 
 }
 
+
 var socket = new WebSocket("ws://localhost:3000");
+var sb = new StatusBar();
+var gs = new GameState();
+
+socket.onmessage = function (event) {
+
+    let incomingMsg = JSON.parse(event.data);
+
+    //set player type
+    if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
+
+        gs.setPlayerType(incomingMsg.data);//should be "A" or "B"
+    }
+}
+
+
+
