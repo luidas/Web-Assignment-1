@@ -12,8 +12,8 @@ var ships = [4, 3, 2, 1];
 var selected = 0
 var boxes = [];
 var playButton = document.getElementById('play');
-playButton.onclick;
-var socket = new WebSocket("ws://localhost:3000");
+playButton.disabled = true;
+
 
 // Creating a board array for players ships.
 var testBoard = [
@@ -178,8 +178,8 @@ function select(e) {
             dragging = true;
         }
     }
-    
-    else if(e.target.id ==  "play"){
+
+    else if (e.target.id == "play") {
         console.log("aa");
     }
 }
@@ -440,7 +440,7 @@ function place(e) {
                         if (current.style.background == "#86E7F6")
                             current.style.background == "#86E7F6";
 
-                        else 
+                        else
                             current.style.background = "#FFFFFF";
                     }
                 }
@@ -456,10 +456,14 @@ function place(e) {
                             if (testBoard[i][j] == 0) {
                                 testBoard[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
-                                
+
                             }
                         }
                     }
+
+                    playButton.onclick = SEND() ;
+                    playButton.disabled = false;
+
                 }
 
             }
@@ -471,4 +475,10 @@ function place(e) {
         }
     }
 }
-
+function SEND(){
+   var socket = new WebSocket("ws://localhost:3000");
+        socket.onopen = function(){
+            socket.send(testBoard);
+            socket.send(socket);
+        }
+}

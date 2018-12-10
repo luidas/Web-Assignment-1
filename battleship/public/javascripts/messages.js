@@ -40,6 +40,12 @@
         data: null
     };
 
+
+    exports.T_SHIP_SETUP_DONE = "SHIP_SETUP_DONE";
+    exports.O_SHIP_SETUP_DONE = {
+        type: exports.T_SHIP_SETUP,
+        data: null
+    };
     /* 
      * Player to server or server to player: this is the ship placement 
      */
@@ -49,6 +55,11 @@
         data: null
     };
 
+    exports.T_SHIP_SETUP = "SET-SHIPS";
+    exports.O_SHIP_SETUP = {
+        type: exports.T_SHIP_SETUP,
+        data: null
+    };
     /* 
      * Player to server OR server to Player: guessed tile 
      */

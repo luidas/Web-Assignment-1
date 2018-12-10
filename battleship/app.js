@@ -43,9 +43,8 @@ setInterval(function () {
 
 var currentGame = new Battleship(gameStatus.gamesInitialized++);
 var connectionID = 0;//each websocket receives a unique ID
-
+var count = 0
 wss.on("connection", function connection(ws) {
-
     let con = ws;
     con.id = connectionID++;
     let playerType = currentGame.addPlayer(con);
@@ -132,4 +131,4 @@ wss.on("connection", function connection(ws) {
 })
 
 
-server.listen(port)
+server.listen(port) 
