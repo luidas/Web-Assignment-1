@@ -461,9 +461,8 @@ function place(e) {
                         }
                     }
 
-                    playButton.onclick = SEND() ;
+                    playButton.onclick = send;
                     playButton.disabled = false;
-
                 }
 
             }
@@ -475,10 +474,7 @@ function place(e) {
         }
     }
 }
-function SEND(){
-   var socket = new WebSocket("ws://localhost:3000");
-        socket.onopen = function(){
-            socket.send(testBoard);
-            socket.send(socket);
-        }
+
+function send(){
+    location.hash = JSON.stringify(testBoard);
 }
