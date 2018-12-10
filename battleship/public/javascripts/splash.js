@@ -11,7 +11,8 @@ var diffrenceY = 0;
 var ships = [4, 3, 2, 1];
 var selected = 0
 var boxes = [];
-
+var playButton = document.getElementById('play');
+playButton.onclick;
 // Creating a board array for players ships.
 var testBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -42,25 +43,6 @@ playerBoard.addEventListener("mouseout", mouseOut);
 playerBoard.addEventListener("mousedown", select, false);
 playerBoard.addEventListener("mouseup", place);
 
-<<<<<<< HEAD
-
-
-
-var dragging = false;
-var selectionX = 0;
-var selectionY = 0;
-var targetX = 0;
-var targetY = 0;
-var diffrenceX = 0;
-var diffrenceY = 0;
-var ships = [4, 3, 2, 1];
-var selected = 0
-var boxes = [];
-
-
-
-=======
->>>>>>> e29ce372bcb80ef1a217ad7660d8aef8b45d035c
 //Function for mouseover of a playergrid's object
 function mouseOver(e) {
     //Only does something if the mouse if over a box that can contain a ship coordinate
@@ -177,7 +159,7 @@ function mouseOut(e) {
 
 //Function for selecting a box
 function select(e) {
-
+    console.log(e.target.id);
     //Only does something if the mouse if over a box that can contain a ship coordinate
     if (e.target.id.substring(0, 1) == "P") {
         var id = e.target.id;
@@ -193,6 +175,10 @@ function select(e) {
             boxes.push(e.target);
             dragging = true;
         }
+    }
+    
+    else if(e.target.id ==  "play"){
+        console.log("aa");
     }
 }
 
@@ -468,6 +454,7 @@ function place(e) {
                             if (testBoard[i][j] == 0) {
                                 testBoard[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
+                                
                             }
                         }
                     }

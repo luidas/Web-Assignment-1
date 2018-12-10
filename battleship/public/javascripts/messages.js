@@ -34,6 +34,11 @@
     };
     exports.S_PLAYER_B = JSON.stringify(exports.O_PLAYER_B);
 
+    exports.T_PLAYER_COUNT = "PLAYER-COUNT";
+    exports.O_PLAYER_COUNT = {
+        type: exports.T_PLAYER_COUNTs,
+        data: null
+    };
 
     /* 
      * Player to server or server to player: this is the ship placement 
@@ -72,6 +77,13 @@
         type: exports.T_GAME_OVER,
         data: null
     };
+
+    /* 
+     * Server to Player A & B: game over with result won/loss 
+     */
+    exports.T_WAITING = "WAITING";
+
+    exports.S_WAITING = JSON.stringify(exports.T_WAITING);
 
 
 }(typeof exports === "undefined" ? this.Messages = {} : exports));

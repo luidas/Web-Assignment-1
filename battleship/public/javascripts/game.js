@@ -65,19 +65,23 @@ function shoot(e) {
 
 
 var socket = new WebSocket("ws://localhost:3000");
-var sb = new StatusBar();
 var gs = new GameState();
 
 socket.onmessage = function (event) {
-
+    console.log(event); 
     let incomingMsg = JSON.parse(event.data);
-
+    console.log(incomingMsg);
+    if(incomingMsg == "WAITING"){
+        document.getElementById("statusbar").appendChild(document.createTextNode("Waiting for player"));
+    }
     //set player type
-    if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
+    else if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
 
         gs.setPlayerType(incomingMsg.data);//should be "A" or "B"
     }
+
 }
+
 
 
 

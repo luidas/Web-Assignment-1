@@ -69,6 +69,10 @@ wss.on("connection", function connection(ws) {
         msg.data = currentGame.getAboard();
         con.send(JSON.stringify(msg));
     }
+    if (!currentGame.hasTwoConnectedPlayers()) {
+        let msg = messages.T_WAITING;
+        con.send(JSON.stringify(msg));
+    }
 
     /*
      * once we have two players, there is no way back; 
@@ -84,7 +88,7 @@ wss.on("connection", function connection(ws) {
     });
 
     con.on("close", function (code) {
-        
+
         /*
          * code 1001 means almost always closing initiated by the client;
          * source: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
@@ -98,7 +102,7 @@ wss.on("connection", function connection(ws) {
             let gameObj = websockets[con.id];
 
             if (gameObj.isValidTransition(gameObj.gameState, "ABORTED")) {
-                gameObj.setStatus("ABORTED"); 
+                gameObj.setStatus("ABORTED");
                 gameStatus.gamesAborted++;
 
                 /*
@@ -109,19 +113,19 @@ wss.on("connection", function connection(ws) {
                     gameObj.playerA.close();
                     gameObj.playerA = null;
                 }
-                catch(e){
-                    console.log("Player A closing: "+ e);
+                catch (e) {
+                    console.log("Player A closing: " + e);
                 }
 
                 try {
-                    gameObj.playerB.close(); 
+                    gameObj.playerB.close();
                     gameObj.playerB = null;
                 }
-                catch(e){
+                catch (e) {
                     console.log("Player B closing: " + e);
-                }                
+                }
             }
-            
+
         }
     });
 
