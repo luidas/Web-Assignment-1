@@ -18,13 +18,9 @@ battleship.prototype.transitionStates = {};
 battleship.prototype.transitionStates["0 JOINT"] = 0;
 battleship.prototype.transitionStates["1 JOINT"] = 1;
 battleship.prototype.transitionStates["2 JOINT"] = 2;
-battleship.prototype.transitionStates["BOARD SETUP"] = 3;
-battleship.prototype.transitionStates["TILE HIT"] = 3;
-battleship.prototype.transitionStates["TILE HIT"] = 3;
-battleship.prototype.transitionStates["TILE HIT"] = 3;
-battleship.prototype.transitionStates["A"] = 4; //A won
-battleship.prototype.transitionStates["B"] = 5; //B won
-battleship.prototype.transitionStates["ABORTED"] = 6;
+battleship.prototype.transitionStates["A"] = 3; //A won
+battleship.prototype.transitionStates["B"] = 4; //B won
+battleship.prototype.transitionStates["ABORTED"] = 5;
 
 /*
  * Not all game states can be transformed into each other;
@@ -32,13 +28,12 @@ battleship.prototype.transitionStates["ABORTED"] = 6;
  * They are checked each time a state change is attempted.
  */
 battleship.prototype.transitionMatrix = [
-    [0, 1, 0, 0, 0, 0, 0],   //0 JOINT
-    [1, 0, 1, 0, 0, 0, 0],   //1 JOINT
-    [0, 0, 0, 1, 0, 0, 1],   //2 JOINT (note: once we have two players, there is no way back!)
-    [0, 0, 0, 1, 1, 1, 1],   //CHAR GUESSED
-    [0, 0, 0, 0, 0, 0, 0],   //A WON
-    [0, 0, 0, 0, 0, 0, 0],   //B WON
-    [0, 0, 0, 0, 0, 0, 0]    //ABORTED
+    [0, 1, 0, 0, 0, 0],   //0 JOINT
+    [1, 0, 1, 0, 0, 0],   //1 JOINT
+    [0, 0, 0, 0, 0, 1],   //2 JOINT (note: once we have two players, there is no way back!)
+    [0, 0, 0, 0, 0, 0],   //A WON
+    [0, 0, 0, 0, 0, 0],   //B WON
+    [0, 0, 0, 0, 0, 0]    //ABORTED
 ];
 
 battleship.prototype.isValidTransition = function (from, to) {
@@ -92,7 +87,9 @@ battleship.prototype.setABoard = function (w) {
         return new Error("Trying to set board, but game status is %s", this.gameState);
     }
     this.playerAboard = w;
-    this.boards++;
+    if (this.boards < 2) {
+        this.boards++;
+    }
 };
 
 battleship.prototype.setBBoard = function (w) {
@@ -103,56 +100,63 @@ battleship.prototype.setBBoard = function (w) {
         return new Error("Trying to set board, but game status is %s", this.gameState);
     }
     this.playerBboard = w;
-    this.boards++;
-    console.log("SET");
-    return this.boards;
+    if (this.boards < 2) {
+        this.boards++;
+    }
 };
 
-battleship.prototype.getAboard = function () {
+battleship.prototype.getABoard = function () {
     return this.playerAboard;
 };
 
-battleship.prototype.getBboard = function () {
+battleship.prototype.getBBoard = function () {
     return this.playerBboard;
 };
 battleship.prototype.shoot = function (cordY, cordX, player) {
     if (player == "A") {
-        let board = this.getBBoard;
+        var board = this.getBBoard();
         if (board[cordY][cordX] == 1) {
             board[cordY][cordX] = 3;
             this.setBBoard(board);
-            this.AHIT++;
+            this.AHit++;
+            
+            if (this.getHit("A") == 20){
+                return "A WON";
+            }
             return 1;
         }
-        else if (board[cordY][cordX] == 2){
+        else if (board[cordY][cordX] == 2) {
             board[cordY][cordX] = 4;
             this.setBBoard(board);
             return 2;
         }
-        else if (board[cordY][cordX] == 3){
+        else if (board[cordY][cordX] == 3) {
             return 3;
         }
-        else if (board[cordY][cordX] == 4){
+        else if (board[cordY][cordX] == 4) {
             return 4;
         }
     }
     else if (player == "B") {
-        let board = this.getABoard();
+        var board = this.getABoard();
         if (board[cordY][cordX] == 1) {
             board[cordY][cordX] = 3;
             this.setABoard(board);
             this.BHit++;
-            return 1;
+            if (this.getHit("B") == 20){
+                return "B WON";
+            }
+                return 1;
         }
-        else if (board[cordY][cordX] == 2){
+        else if (board[cordY][cordX] == 2) {
             board[cordY][cordX] = 4;
             this.setABoard(board);
             return 2;
         }
-        else if (board[cordY][cordX] == 3){
+        else if (board[cordY][cordX] == 3) {
             return 3;
         }
-        else if (board[cordY][cordX] == 4){
+        else if (board[cordY][cordX] == 4) {
             return 4;
         }
     }
@@ -161,7 +165,14 @@ battleship.prototype.shoot = function (cordY, cordX, player) {
 battleship.prototype.hasTwoConnectedPlayers = function () {
     return (this.gameState == "2 JOINT");
 };
-
+battleship.prototype.getHit = function (letter) {
+    if (letter == "A") {
+        return this.AHit;
+    }
+    else if (letter == "B") {
+        return this.Bhit;
+    }
+}
 battleship.prototype.addPlayer = function (p) {
 
     console.assert(p instanceof Object, "%s: Expecting an object (WebSocket), got a %s", arguments.callee.name, typeof p);
@@ -187,5 +198,14 @@ battleship.prototype.addPlayer = function (p) {
         return "B";
     }
 };
+battleship.prototype.getPlayer = function (letter) {
+    if (letter == "A")
+        return this.playerA;
+    else if (letter == "B")
+        return this.playerB;
 
+}
+battleship.prototype.getBoards = function () {
+    return this.boards;
+}
 module.exports = battleship;

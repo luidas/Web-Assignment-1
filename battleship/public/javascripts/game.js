@@ -10,16 +10,22 @@ var targetY = 0;
 var diffrenceX = 0;
 var diffrenceY = 0;
 var ships = [4, 3, 2, 1];
-
+var id = null;
 var selected = 0
 var boxes = [];
 var playergrid = new Array(10);
 var opponentgrid = new Array(10);
 var readyButton = document.getElementById("ready");
+var statusbar = document.getElementById("statusbar");
+var resetButton = document.getElementById("reset");
+statusbar.appendChild(document.createTextNode("Place your ships"));
+readyButton.disabled = true;
+
 
 function GameState() {
     this.playerType = null;
     this.conId = null;
+    this.name = null;
 }
 
 var gs = new GameState();
@@ -35,24 +41,27 @@ socket.onmessage = function (event) {
         gs.conId = incomingMsg.id;
         console.log(gs.conId);
     }
-    else if(incomingMsg.type == Messages.T_YOUR_TURN){
+    else if (incomingMsg.type == Messages.T_YOUR_TURN) {
         opponentBoard.addEventListener("click", shoot, false);
-        console.log("my turn");
     }
-}
-readyButton.disabled = false;
-readyButton.onclick = function sendFleet() {
-    let msg = Messages.O_SHIP_SETUP;
-    msg.data = testBoard;
-    msg.player = gs.playerType;
-    msg.id = gs.conId;
-    socket.send(JSON.stringify(msg));
+    else if (incomingMsg.type == Messages.T_SHOOT_ANSWER) {
+        if (incomingMsg.data == 1) {
+            document.getElementById(id).className = "hit";
+        }
+        else if (incomingMsg.data == 2) {
+            document.getElementById(id).className = "miss";
+
+            opponentBoard.removeEventListener("click", shoot, false);
+        }
+
+
+    }
 }
 
 
 
 // Creating a board array for players ships.
-var testBoard = [
+var playerShips = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -93,15 +102,28 @@ playerBoard.addEventListener("mouseout", mouseOut);
 playerBoard.addEventListener("mousedown", select, false);
 playerBoard.addEventListener("mouseup", place);
 
+resetButton.onclick = function reset() {
+    for(var i = 0; i < playerShips.length; i++){
+        for(var j = 0; j < playerShips[i].length; j++){
+            playerShips[i][j] = 0;
+            playergrid[i][j].style.background = "#FFFFFF";
+        }
+    }
+}
+
+
 function shoot(e) {
     if (e.target.id.substring(0, 1) == "O") {
-        console.log("HIT");``
-        var id = e.target.id;
+        id = e.target.id;
         var row = id.charCodeAt(1) - 65;
         var column = id.charCodeAt(2) - 48;
+        let msg = Messages.O_SHOOT;
+        msg.id = gs.conId;
+        msg.player = gs.playerType;
+        msg.cordX = column;
+        msg.cordY = row;
+        socket.send(JSON.stringify(msg));
     }
-
-
 }
 
 //Function for mouseover of a playergrid's object
@@ -132,7 +154,7 @@ function mouseOver(e) {
                 //If as ship that is drawn on a box that already contains a ship, 
                 //change the boolean of drawing and reset the selected counter
                 //also reset the boxes that were being drawn on accordingly
-                if (testBoard[targetY][targetX] == 1) {
+                if (playerShips[targetY][targetX] == 1) {
                     while (boxes.length != 0) {
                         var current = boxes.pop();
 
@@ -148,7 +170,7 @@ function mouseOver(e) {
                 //If as ship that is drawn on a box that already contains a ship, 
                 //change the boolean of drawing and reset the selected counter
                 //also reset the boxes that were being drawn on accordingly
-                else if (testBoard[targetY][targetX] == 2) {
+                else if (playerShips[targetY][targetX] == 2) {
                     while (boxes.length != 0) {
                         var current = boxes.pop();
 
@@ -203,12 +225,12 @@ function mouseOut(e) {
         targetX = e.target.id.charCodeAt(2) - 48;
 
         //If there is a ship there, make the box black
-        if (testBoard[targetY][targetX] == 1) {
+        if (playerShips[targetY][targetX] == 1) {
             e.target.style.background = "#000000";
         }
 
         //Else if there is water there make the box light blue
-        else if (testBoard[targetY][targetX] == 2) {
+        else if (playerShips[targetY][targetX] == 2) {
             e.target.style.background = "#86E7F6";
         }
         //Else if a ship is not being drawn make it white.
@@ -220,7 +242,6 @@ function mouseOut(e) {
 
 //Function for selecting a box
 function select(e) {
-    console.log(e.target.id);
     //Only does something if the mouse if over a box that can contain a ship coordinate
     if (e.target.id.substring(0, 1) == "P") {
         var id = e.target.id;
@@ -231,15 +252,11 @@ function select(e) {
 
         //If there is no water in the location paint the box black, 
         //push it on the boxes that were selected array, and make dragging true
-        if (testBoard[selectionY][selectionX] != 2) {
+        if (playerShips[selectionY][selectionX] != 2) {
             e.target.style.background = "#000000";
             boxes.push(e.target);
             dragging = true;
         }
-    }
-
-    else if (e.target.id == "play") {
-        console.log("aa");
     }
 }
 
@@ -258,7 +275,7 @@ function place(e) {
             targetX = id.charCodeAt(2) - 48;
 
             //Only does something if there is no ship at the location
-            if (testBoard[targetY][targetX] == 0) {
+            if (playerShips[targetY][targetX] == 0) {
 
                 //Calculates the distance between the initial and final x and y coordinates
                 diffrenceX = targetX - selectionX;
@@ -277,29 +294,29 @@ function place(e) {
 
                             //If there can be placed water at the left of the initial coordinate place it
                             if (selectionX > 0) {
-                                testBoard[selectionY][selectionX - 1] = 2;
+                                playerShips[selectionY][selectionX - 1] = 2;
                                 playergrid[selectionY][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (selectionX > 0 && selectionY > 0) {
-                                testBoard[selectionY - 1][selectionX - 1] = 2;
+                                playerShips[selectionY - 1][selectionX - 1] = 2;
                                 playergrid[selectionY - 1][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (selectionX > 0 && selectionY < 9) {
-                                testBoard[selectionY + 1][selectionX - 1] = 2;
+                                playerShips[selectionY + 1][selectionX - 1] = 2;
                                 playergrid[selectionY + 1][selectionX - 1].style.background = "#86E7F6";
                             }
 
                             //If there can be placed water at the right of the final coordinate place it
                             if (targetX < 9) {
-                                testBoard[selectionY][targetX + 1] = 2;
+                                playerShips[selectionY][targetX + 1] = 2;
                                 playergrid[selectionY][targetX + 1].style.background = "#86E7F6";
                             }
                             if (targetX < 9 && selectionY > 0) {
-                                testBoard[selectionY - 1][targetX + 1] = 2;
+                                playerShips[selectionY - 1][targetX + 1] = 2;
                                 playergrid[selectionY - 1][targetX + 1].style.background = "#86E7F6";
                             }
                             if (targetX < 9 && selectionY < 9) {
-                                testBoard[selectionY + 1][targetX + 1] = 2;
+                                playerShips[selectionY + 1][targetX + 1] = 2;
                                 playergrid[selectionY + 1][targetX + 1].style.background = "#86E7F6";
                             }
                         }
@@ -309,29 +326,29 @@ function place(e) {
 
                             //If there can be placed water at the left of the final coordinate place it
                             if (targetX > 0) {
-                                testBoard[selectionY][targetX - 1] = 2;
+                                playerShips[selectionY][targetX - 1] = 2;
                                 playergrid[selectionY][targetX - 1].style.background = "#86E7F6";
                             }
                             if (targetX > 0 && selectionY > 0) {
-                                testBoard[selectionY - 1][targetX - 1] = 2;
+                                playerShips[selectionY - 1][targetX - 1] = 2;
                                 playergrid[selectionY - 1][targetX - 1].style.background = "#86E7F6";
                             }
                             if (targetX > 0 && selectionY < 9) {
-                                testBoard[selectionY + 1][targetX - 1] = 2;
+                                playerShips[selectionY + 1][targetX - 1] = 2;
                                 playergrid[selectionY + 1][targetX - 1].style.background = "#86E7F6";
                             }
 
                             //If there can be placed water at the right of the initial coordinate place it
                             if (selectionX < 9) {
-                                testBoard[selectionY][selectionX + 1] = 2;
+                                playerShips[selectionY][selectionX + 1] = 2;
                                 playergrid[selectionY][selectionX + 1].style.background = "#86E7F6";
                             }
                             if (selectionX < 9 && selectionY > 0) {
-                                testBoard[selectionY - 1][selectionX + 1] = 2;
+                                playerShips[selectionY - 1][selectionX + 1] = 2;
                                 playergrid[selectionY - 1][selectionX + 1].style.background = "#86E7F6";
                             }
                             if (selectionX < 9 && selectionY < 9) {
-                                testBoard[selectionY + 1][selectionX + 1] = 2;
+                                playerShips[selectionY + 1][selectionX + 1] = 2;
                                 playergrid[selectionY + 1][selectionX + 1].style.background = "#86E7F6";
                             }
                         }
@@ -341,17 +358,17 @@ function place(e) {
 
                             //If there can be placed water above or below, or both place it.
                             if (selectionY > 0) {
-                                testBoard[selectionY - 1][targetX] = 2;
+                                playerShips[selectionY - 1][targetX] = 2;
                                 playergrid[selectionY - 1][targetX].style.background = "#86E7F6";
                             }
                             if (selectionY < 9) {
-                                testBoard[selectionY + 1][targetX] = 2;
+                                playerShips[selectionY + 1][targetX] = 2;
                                 playergrid[selectionY + 1][targetX].style.background = "#86E7F6";
                             }
 
                             //Make the coordinate to contain a ship, 
                             //pop the boxes array to empty it and make the background black
-                            testBoard[targetY][targetX] = 1;
+                            playerShips[targetY][targetX] = 1;
                             boxes.pop();
                             playergrid[targetY][targetX].style.background = "#000000";
 
@@ -390,29 +407,29 @@ function place(e) {
 
                             //If a water can be placed above the ships initial coordiante place it
                             if (selectionY > 0) {
-                                testBoard[selectionY - 1][selectionX] = 2;
+                                playerShips[selectionY - 1][selectionX] = 2;
                                 playergrid[selectionY - 1][selectionX].style.background = "#86E7F6";
                             }
                             if (selectionY > 0 && selectionX > 0) {
-                                testBoard[selectionY - 1][selectionX - 1] = 2;
+                                playerShips[selectionY - 1][selectionX - 1] = 2;
                                 playergrid[selectionY - 1][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (selectionY > 0 && selectionX < 9) {
-                                testBoard[selectionY - 1][selectionX + 1] = 2;
+                                playerShips[selectionY - 1][selectionX + 1] = 2;
                                 playergrid[selectionY - 1][selectionX + 1].style.background = "#86E7F6";
                             }
 
                             //If a water can be placed below the ships final coordinate place it
                             if (targetY < 9) {
-                                testBoard[targetY + 1][selectionX] = 2;
+                                playerShips[targetY + 1][selectionX] = 2;
                                 playergrid[targetY + 1][selectionX].style.background = "#86E7F6";
                             }
                             if (targetY < 9 && selectionX > 0) {
-                                testBoard[targetY + 1][selectionX - 1] = 2;
+                                playerShips[targetY + 1][selectionX - 1] = 2;
                                 playergrid[targetY + 1][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (targetY < 9 && selectionX < 9) {
-                                testBoard[targetY + 1][selectionX + 1] = 2;
+                                playerShips[targetY + 1][selectionX + 1] = 2;
                                 playergrid[targetY + 1][selectionX + 1].style.background = "#86E7F6";
                             }
                         }
@@ -422,29 +439,29 @@ function place(e) {
 
                             //If a water can be placed above ships final coordinate place it
                             if (targetY > 0) {
-                                testBoard[targetY - 1][selectionX] = 2;
+                                playerShips[targetY - 1][selectionX] = 2;
                                 playergrid[targetY - 1][selectionX].style.background = "#86E7F6";
                             }
                             if (targetY > 0 && selectionX > 0) {
-                                testBoard[targetY - 1][selectionX - 1] = 2;
+                                playerShips[targetY - 1][selectionX - 1] = 2;
                                 playergrid[targetY - 1][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (targetY > 0 && selectionX < 9) {
-                                testBoard[targetY - 1][selectionX + 1] = 2;
+                                playerShips[targetY - 1][selectionX + 1] = 2;
                                 playergrid[targetY - 1][selectionX + 1].style.background = "#86E7F6";
                             }
 
                             //If a water can be place below ships final coordinate place it
                             if (selectionY < 9) {
-                                testBoard[selectionY + 1][selectionX] = 2;
+                                playerShips[selectionY + 1][selectionX] = 2;
                                 playergrid[selectionY + 1][selectionX].style.background = "#86E7F6";
                             }
                             if (selectionY < 9 && selectionX > 0) {
-                                testBoard[selectionY + 1][selectionX - 1] = 2;
+                                playerShips[selectionY + 1][selectionX - 1] = 2;
                                 playergrid[selectionY + 1][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (selectionY < 9 && selectionX < 9) {
-                                testBoard[selectionY + 1][selectionX + 1] = 2;
+                                playerShips[selectionY + 1][selectionX + 1] = 2;
                                 playergrid[selectionY + 1][selectionX + 1].style.background = "#86E7F6";
                             }
                         }
@@ -454,18 +471,18 @@ function place(e) {
 
                             //If a water can place to the right or the left of the box place it
                             if (selectionX > 0) {
-                                testBoard[targetY][selectionX - 1] = 2;
+                                playerShips[targetY][selectionX - 1] = 2;
                                 playergrid[targetY][selectionX - 1].style.background = "#86E7F6";
                             }
                             if (selectionX < 9) {
-                                testBoard[targetY][selectionX + 1] = 2;
+                                playerShips[targetY][selectionX + 1] = 2;
                                 playergrid[targetY][selectionX + 1].style.background = "#86E7F6";
                             }
 
                             //Make the coordinate one to contain a ship
                             //Pop boxes array, so it is empty when the next ship is placed
                             //Make the box black
-                            testBoard[targetY][targetX] = 1;
+                            playerShips[targetY][targetX] = 1;
                             boxes.pop();
                             playergrid[targetY][targetX].style.background = "#000000";
 
@@ -510,12 +527,20 @@ function place(e) {
 
                 //If all ships were placed make the rest of the board to contain water.
                 if (ships[0] == 0 && ships[1] == 0 && ships[2] == 0 && ships[3] == 0) {
-                    for (var i = 0; i < testBoard.length; i++) {
-                        for (var j = 0; j < testBoard[i].length; j++) {
-                            if (testBoard[i][j] == 0) {
-                                testBoard[i][j] = 2;
+                    for (var i = 0; i < playerShips.length; i++) {
+                        for (var j = 0; j < playerShips[i].length; j++) {
+                            if (playerShips[i][j] == 0) {
+                                playerShips[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
-
+                                readyButton.disabled = false;
+                                readyButton.onclick = function sendFleet() {
+                                    let msg = Messages.O_SHIP_SETUP;
+                                    msg.data = playerShips;
+                                    msg.player = gs.playerType;
+                                    msg.id = gs.conId;
+                                    socket.send(JSON.stringify(msg));
+                                }
+                                resetButton.disabled = true;
 
                             }
                         }

@@ -62,20 +62,6 @@ wss.on("connection", function connection(ws) {
         con.send(JSON.stringify(msg));
     }
 
-    if (playerType == "A" && currentGame.getBboard() != null) {
-        let msg = messages.O_SHIP_SETUP;
-        msg.data = currentGame.getBboard();
-        con.send(JSON.stringify(msg));
-    }
-
-    /*
-     * client receives the enemy board (if already available)
-     */
-    if (playerType == "B" && currentGame.getAboard() != null) {
-        let msg = messages.O_SHIP_SETUP;
-        msg.data = currentGame.getAboard();
-        con.send(JSON.stringify(msg));
-    }
     if (!currentGame.hasTwoConnectedPlayers()) {
         let msg = messages.T_WAITING;
         con.send(JSON.stringify(msg));
@@ -92,21 +78,56 @@ wss.on("connection", function connection(ws) {
     }
 
     con.on("message", function incoming(message) {
-        console.log("[LOG] " + message);
 
         let incomingMsg = JSON.parse(message);
-        console.log(incomingMsg.type);
+
+        console.log("[LOG] " + incomingMsg.type);
         if (incomingMsg.type == messages.T_SHIP_SETUP) {
             if (incomingMsg.player == "A") {
 
                 websockets[incomingMsg.id].setABoard(incomingMsg.data);
-                console.log(websockets[incomingMsg.id].board);
-                console.log(websockets[incomingMsg.id].getAboard());
-            }
-            else if(incomingMsg.player == "B"){
-                if(currentGame.setBBoard(incomingMsg.data)==2)
+                if (websockets[incomingMsg.id].getBoards() == 2) {
                     con.send(messages.S_YOUR_TURN);
+                }
             }
+            else if (incomingMsg.player == "B") {
+
+                websockets[incomingMsg.id].setBBoard(incomingMsg.data);
+                if (websockets[incomingMsg.id].getBoards() == 2) {
+                    con.send(messages.S_YOUR_TURN);
+                }
+            }
+        }
+        else if (incomingMsg.type == messages.T_SHOOT) {
+            var answer = websockets[incomingMsg.id].shoot(incomingMsg.cordY, incomingMsg.cordX, incomingMsg.player);
+            if (answer == "A WON") {
+                let msg = messages.O_SHOOT_ANSWER;
+                msg.data = 1;
+                con.send(JSON.stringify(msg));
+                con.send(messages.S_GAME_WON);
+
+            }
+            else if (answer == "B WON") {
+                
+                let msg = messages.O_SHOOT_ANSWER;
+                msg.data = 1;
+                con.send(JSON.stringify(msg));
+                con.send(messages.S_GAME_WON)
+            }
+            else {
+                let msg = messages.O_SHOOT_ANSWER;
+                msg.data = answer;
+                con.send(JSON.stringify(msg));
+                if (answer == 2) {
+                    if (incomingMsg.player == "A") {
+                        websockets[incomingMsg.id].getPlayer("B").send(messages.S_YOUR_TURN);
+                    }
+                    else if (incomingMsg.player == "B") {
+                        websockets[incomingMsg.id].getPlayer("A").send(messages.S_YOUR_TURN);
+                    }
+                }
+            }
+
         }
 
     });

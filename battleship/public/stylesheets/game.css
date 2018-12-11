@@ -9,7 +9,12 @@ font-family: 'Courier New', Courier, monospace;
 #center{
   text-align: center;
 }
-
+.hit{
+  background: red;
+}
+.miss{
+  background: lightblue;
+}
 td {
 width : 30px;
 height : 30px;
@@ -33,7 +38,7 @@ content: "Time Elapsed:";
 }
 
 #statusbar::before{
-content: "Status:";
+content: "Status: ";
 }
 
 table{

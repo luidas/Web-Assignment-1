@@ -1,14 +1,5 @@
 (function (exports) {
 
-    /* 
-     * Client to server: game is complete, the winner is ... 
-     */
-    exports.T_GAME_WON_BY = "GAME-WON-BY";
-    exports.O_GAME_WON_BY = {
-        type: exports.T_GAME_WON_BY,
-        data: null
-    };
-
     exports.T_YOUR_TURN = "YOUR-TURN";
     exports.O_YOUR_TURN = {
         type: exports.T_YOUR_TURN,
@@ -25,10 +16,17 @@
         cordY: null,
         player: null
     };
-    exports.S_YOUR_TURN = JSON.stringify(exports.O_YOUR_TURN);
+
+    exports.T_SHOOT_ANSWER = "SHOOT-ANSWER";  
+    exports.O_SHOOT_ANSWER = {
+        type: exports.T_SHOOT_ANSWER,
+        data: null
+    };
+
     /*
         * Server to client: set as player A 
         */
+
     exports.T_PLAYER_TYPE = "PLAYER-TYPE";
     exports.O_PLAYER_A = {
         type: exports.T_PLAYER_TYPE,
@@ -59,15 +57,6 @@
         id: null
     };
     
-    /* 
-     * Player to server OR server to Player: guessed tile 
-     */
-    exports.T_MAKE_A_GUESS = "MAKE-A-GUESS";
-    exports.O_MAKE_A_GUESS = {
-        type: exports.T_MAKE_A_GUESS,
-        data: null
-    };
-
 
 
     /*
@@ -87,6 +76,18 @@
         type: exports.T_GAME_OVER,
         data: null
     };
+    
+    exports.S_GAME_OVER = JSON.stringify(exports.O_GAME_OVER);
+    /* 
+     * Server to Player A & B: game over with result won/loss 
+     */
+    exports.T_GAME_WON = "GAME-WON";
+    exports.O_GAME_WON = {
+        type: exports.T_GAME_WON,
+        data: null
+    };
+    exports.S_GAME_WON = JSON.stringify(exports.O_GAME_WON);
+    
 
     /* 
      * Server to Player A & B: game over with result won/loss 
