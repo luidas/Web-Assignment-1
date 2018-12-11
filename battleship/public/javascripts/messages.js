@@ -52,7 +52,8 @@
     exports.T_SHIP_SETUP = "SET-SHIPS";
     exports.O_SHIP_SETUP = {
         type: exports.T_SHIP_SETUP,
-        data: null
+        data: null,
+        player: null
     };
 
     exports.T_SHIP_SETUP = "SET-SHIPS";
