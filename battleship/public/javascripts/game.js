@@ -2,6 +2,19 @@ function GameState() {
     this.playerType = null;
 }
 
+var gs = new GameState();
+
+var socket = new WebSocket("ws://localhost:3000");
+socket.onmessage = function (event) {
+    console.log(event);
+    let incomingMsg = JSON.parse(event.data);
+    //set player type
+
+    if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
+        gs.playerType = incomingMsg.data;//should be "A" or "B";
+        
+    }
+}
 
 // Creating variables for the board creation
 var playerBoard = document.getElementById('playergrid');
@@ -14,10 +27,13 @@ var targetY = 0;
 var diffrenceX = 0;
 var diffrenceY = 0;
 var ships = [4, 3, 2, 1];
+
 var selected = 0
 var boxes = [];
 var playergrid = new Array(10);
 var opponentgrid = new Array(10);
+var readyButton = document.getElementById("ready");
+readyButton.disabled = true;
 
 // Creating a board array for players ships.
 var testBoard = [
@@ -33,9 +49,8 @@ var testBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 
-var socket = new WebSocket("ws://localhost:3000");
-var gs = new GameState();
 
+//Assigning table's boxes to playergrid array.
 for (var i = 0; i < playergrid.length; i++) {
     playergrid[i] = new Array(10);
     for (var j = 0; j < playergrid[i].length; j++) {
@@ -84,38 +99,6 @@ function shoot(e) {
     }
 
 
-}
-
-
-socket.onmessage = function (event) {
-    console.log(event); 
-    let incomingMsg = JSON.parse(event.data);
-    console.log(incomingMsg);
-    if(incomingMsg == "WAITING"){
-        document.getElementById("statusbar").appendChild(document.createTextNode("Waiting for player"));
-    }
-    //set player type
-    else if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
-
-        gs.setPlayerType(incomingMsg.data);//should be "A" or "B"
-    }
-
-}
-
-
-
-
-
-
-//Assigning table's boxes to playergrid array.
-for (var i = 0; i < playergrid.length; i++) {
-    playergrid[i] = new Array(10);
-    for (var j = 0; j < playergrid[i].length; j++) {
-        var letter = String.fromCharCode(i + 65);
-        var number = String.fromCharCode(j + 48);
-        var element = 'P' + letter + number;
-        playergrid[i][j] = document.getElementById(element);
-    }
 }
 
 //Function for mouseover of a playergrid's object
@@ -529,7 +512,13 @@ function place(e) {
                             if (testBoard[i][j] == 0) {
                                 testBoard[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
-
+                                readyButton.disabled = false;
+                                readyButton.onclick = function sendFleet(){
+                                    let msg = Messages.T_SHIP_SETUP;
+                                    msg.data = testBoard;
+                                    msg.player = gs.playerType;
+                                    socket.send(JSON.stringify(msg));
+                                }
                             }
                         }
                     }

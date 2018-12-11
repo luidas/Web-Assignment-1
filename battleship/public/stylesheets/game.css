@@ -1,8 +1,10 @@
 
-  td {
-    width : 30px;
-    height : 30px;
-    text-align: center; 
+    span#playerside{
+      -webkit-user-select: none;
   }
-  
-  
+td {
+  width : 30px;
+  height : 30px;
+  text-align: center; 
+}
+

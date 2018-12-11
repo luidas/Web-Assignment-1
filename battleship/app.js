@@ -51,9 +51,13 @@ wss.on("connection", function connection(ws) {
     websockets[con.id] = currentGame;
     console.log("Player %s placed in game %s as %s", con.id, currentGame.id, playerType);
 
-    /*
-     * client receives the enemy board (if already available)
-     */
+    if(playerType === "A"){
+        con.send(messages.S_PLAYER_A);
+    }
+    else if(playerType === "B"){
+        con.send(messages.S_PLAYER_B);
+    }
+
     if (playerType == "A" && currentGame.getBboard() != null) {
         let msg = messages.O_SHIP_SETUP;
         msg.data = currentGame.getBboard();
