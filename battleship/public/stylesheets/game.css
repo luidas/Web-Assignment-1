@@ -33,11 +33,20 @@ td {
 
 #opponentgrid td:hover { 
   background-color: yellow;
+  animation-name: example;
+  animation-duration: 1s;
 }
 
 #opponentgrid td:active { 
-  background-color: red;
+  background-color: green;
 }
+
+/* The animation code */
+@keyframes example {
+  from {background-color:yellow;}
+  to {background-color:red;}
+}
+
 
 #time::after{
   content: "Time Elapsed:";
@@ -64,3 +73,4 @@ button{
   bottom: 210px;
   left: 20px;
 }
+
