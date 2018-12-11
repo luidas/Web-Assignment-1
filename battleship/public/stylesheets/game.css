@@ -14,14 +14,47 @@ td {
   text-align: center; 
 }
 
+#playergrid{
+  position: relative;
+  bottom: 200px;
+}
+
 #opponentgrid{
   position: relative;
   float: right;
-  bottom: 400px;
+  bottom: 600px;
   
 }
 
 #center{
   margin: auto;
   text-align: center;
+}
+
+#opponentgrid td:hover { 
+  background-color: yellow;
+}
+
+#opponentgrid td:active { 
+  background-color: red;
+}
+
+#time::after{
+  content: "Time Elapsed:";
+}
+
+#statusbar::before{
+  content: "Status:";
+}
+
+table{
+  margin: 5px;
+}
+
+main{
+  padding: 5px;
+}
+
+table{
+  border: cadetblue
 }
