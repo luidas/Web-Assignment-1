@@ -1,3 +1,4 @@
+
 // Creating variables for the board creation
 var playerBoard = document.getElementById('playergrid');
 var opponentBoard = document.getElementById('opponentgrid');

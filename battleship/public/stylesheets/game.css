@@ -1,76 +1,55 @@
-
-    span#playerside{
-      -webkit-user-select: none;
-  }
-
-  body {
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  
-td {
-  width : 30px;
-  height : 30px;
-  text-align: center; 
+span#playerside{
+  -webkit-user-select: none;
 }
 
-#playergrid{
-  position: relative;
-  bottom: 200px;
-}
-
-#opponentgrid{
-  position: relative;
-  float: right;
-  bottom: 600px;
-  
+body {
+font-family: 'Courier New', Courier, monospace;
 }
 
 #center{
-  margin: auto;
   text-align: center;
 }
 
-#opponentgrid td:hover { 
-  background-color: yellow;
-  animation-name: example;
-  animation-duration: 1s;
+td {
+width : 30px;
+height : 30px;
+text-align: center; 
 }
 
-#opponentgrid td:active { 
-  background-color: green;
+#playergrid{
+position: relative;
+bottom: 200px;
 }
 
-/* The animation code */
-@keyframes example {
-  from {background-color:yellow;}
-  to {background-color:red;}
+#opponentgrid{
+position: relative;
+float: right;
+bottom: 600px;
 }
 
 
 #time::after{
-  content: "Time Elapsed:";
+content: "Time Elapsed:";
 }
 
 #statusbar::before{
-  content: "Status:";
+content: "Status:";
 }
 
 table{
-  margin: 5px;
+margin: 5px;
 }
 
 main{
-  padding: 5px;
+padding: 5px;
 }
 
 table{
-  border: cadetblue
+border: cadetblue
 }
 
 button{
-  position: absolute;
-  bottom: 210px;
-  left: 20px;
+position: absolute;
+bottom: 210px;
+left: 20px;
 }
-
