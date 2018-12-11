@@ -15,17 +15,17 @@
 
             <table id="playergrid" border=3px>
                 <tr>
-                    <td id="P0" class="playergrid"></td>
-                    <td id="P1" class="playergrid">1</td>
-                    <td id="P2" class="playergrid">2</td>
-                    <td id="P3" class="playergrid">3</td>
-                    <td id="P4" class="playergrid">4</td>
-                    <td id="P5" class="playergrid">5</td>
-                    <td id="P6" class="playergrid">6</td>
-                    <td id="P7" class="playergrid">7</td>
-                    <td id="P8" class="playergrid">8</td>
-                    <td id="P9" class="playergrid">9</td>
-                    <td id="P10" class="playergrid">10</td>
+                    <td id="0" class="playergrid"></td>
+                    <td id="1" class="playergrid">1</td>
+                    <td id="2" class="playergrid">2</td>
+                    <td id="3" class="playergrid">3</td>
+                    <td id="4" class="playergrid">4</td>
+                    <td id="5" class="playergrid">5</td>
+                    <td id="6" class="playergrid">6</td>
+                    <td id="7" class="playergrid">7</td>
+                    <td id="8" class="playergrid">8</td>
+                    <td id="9" class="playergrid">9</td>
+                    <td id="10" class="playergrid">10</td>
                 </tr>
                 <tr>
                     <td id="PA" class="playergrid">A</td>
@@ -168,6 +168,11 @@
         <span id=center>
             Time Elapsed:
         </span>
+
+        <form action="/play" method="get">
+            <input type="text" name+ "nickname"> <br>
+            <button type="submit" id="play">PLAY</button>
+        </form>
         <span id="opponentside">
 
             <table id="opponentgrid" border=3px>
