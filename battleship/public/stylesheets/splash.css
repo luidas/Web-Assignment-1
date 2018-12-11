@@ -7,5 +7,37 @@
     height : 30px;
     text-align: center; 
   }
+
+ #center {
+  margin: auto;
+  text-align: center;
+ }
+ 
+ #righttop{
+  position: absolute;
+  right: 100px;
+  top: 50px;
+ }
+
+ #rightbottom{
+  position:absolute;
+  right: 100px;
+  bottom: 100px;
+ }
+
+ button{
+   border: darkgray;
+   padding: 15px 80px;
+ }
+
+ input{
+  margin-bottom: 10px;
+ }
+
+ body {
+   font-family: 'Courier New', Courier, monospace;
+ }
+
+ 
   
   

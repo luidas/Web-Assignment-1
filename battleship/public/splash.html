@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <title>Battleship: a two player game</title>
     <link rel="stylesheet" href="stylesheets/splash.css">
@@ -8,19 +9,30 @@
 
 <body>
     <main>
-        <section id="startgame">
+        <div id=center>
+            <img src="Capture.png" alt="Game logo">
+            <h1>Battleship</h1>
+            <h2>2 player game</h2>
+            <h3>Please enter your nickname:</h3>
+            <section id="startgame">
                 <input type="text" name+ "nickname" id="nickname"> <br>
                 <button type="submit" id="play">PLAY</button>
+            </section>
+        </div>
+
+
+        <section id="righttop">
+            <h3>Leaderboard</h3>
         </section>
 
-        <section id="rightSplash">
-            <h3>Leaderboard</h3>
+        <div id=rightbottom>
             <div id="GameStatistics"> Games currently being plyed:
             </div>
             <div id=totalGameStatistics>Total games played:</div>
-        </section>
+        </div>
     </main>
 </body>
 
 <script type="text/javascript" src="javascripts/splash.js"></script>
+
 </html>
