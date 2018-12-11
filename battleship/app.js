@@ -51,11 +51,15 @@ wss.on("connection", function connection(ws) {
     websockets[con.id] = currentGame;
     console.log("Player %s placed in game %s as %s", con.id, currentGame.id, playerType);
 
-    if(playerType === "A"){
-        con.send(messages.S_PLAYER_A);
+    if (playerType === "A") {
+        let msg = messages.O_PLAYER_A;
+        msg.id = con.id;
+        con.send(JSON.stringify(msg));
     }
-    else if(playerType === "B"){
-        con.send(messages.S_PLAYER_B);
+    else if (playerType === "B") {
+        let msg = messages.O_PLAYER_B;
+        msg.id = con.id;
+        con.send(JSON.stringify(msg));
     }
 
     if (playerType == "A" && currentGame.getBboard() != null) {
@@ -84,10 +88,23 @@ wss.on("connection", function connection(ws) {
      */
     if (currentGame.hasTwoConnectedPlayers()) {
         currentGame = new Battleship(gameStatus.gamesInitialized++);
+
     }
 
     con.on("message", function incoming(message) {
         console.log("[LOG] " + message);
+
+        let incomingMsg = JSON.parse(message);
+        console.log(incomingMsg.type);
+        if (incomingMsg.type == messages.T_SHIP_SETUP) {
+            if (incomingMsg.player == "A") {
+                currentGame.setABoard(incomingMsg.data);
+            }
+            else if(incomingMsg.player == "B"){
+                currentGame.setBBoard(incomingMsg.data);
+            }
+        }
+
     });
 
     con.on("close", function (code) {
