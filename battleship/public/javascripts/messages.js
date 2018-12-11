@@ -9,6 +9,23 @@
         data: null
     };
 
+    exports.T_YOUR_TURN = "YOUR-TURN";
+    exports.O_YOUR_TURN = {
+        type: exports.T_YOUR_TURN,
+        data: null
+    };
+    exports.S_YOUR_TURN = JSON.stringify(exports.O_YOUR_TURN);
+
+
+    exports.T_SHOOT = "SHOOT";  
+    exports.O_SHOOT = {
+        type: exports.T_SHOOT,
+        id: null,
+        cordX: null,
+        cordY: null,
+        player: null
+    };
+    exports.S_YOUR_TURN = JSON.stringify(exports.O_YOUR_TURN);
     /*
         * Server to client: set as player A 
         */
@@ -38,7 +55,8 @@
     exports.O_SHIP_SETUP = {
         type: exports.T_SHIP_SETUP,
         data: null,
-        player: null
+        player: null,
+        id: null
     };
     
     /* 

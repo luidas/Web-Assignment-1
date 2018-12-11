@@ -6,6 +6,9 @@ var battleship = function (gameID) {
     this.playerBboard = null;
     this.id = gameID;
     this.gameState = "0 JOINT"; //"A" means A won, "B" means B won, "ABORTED" means the game was aborted
+    this.AHit = 0;
+    this.BHit = 0;
+    this.boards = 0;
 };
 
 /*
@@ -15,6 +18,9 @@ battleship.prototype.transitionStates = {};
 battleship.prototype.transitionStates["0 JOINT"] = 0;
 battleship.prototype.transitionStates["1 JOINT"] = 1;
 battleship.prototype.transitionStates["2 JOINT"] = 2;
+battleship.prototype.transitionStates["BOARD SETUP"] = 3;
+battleship.prototype.transitionStates["TILE HIT"] = 3;
+battleship.prototype.transitionStates["TILE HIT"] = 3;
 battleship.prototype.transitionStates["TILE HIT"] = 3;
 battleship.prototype.transitionStates["A"] = 4; //A won
 battleship.prototype.transitionStates["B"] = 5; //B won
@@ -86,6 +92,7 @@ battleship.prototype.setABoard = function (w) {
         return new Error("Trying to set board, but game status is %s", this.gameState);
     }
     this.playerAboard = w;
+    this.boards++;
 };
 
 battleship.prototype.setBBoard = function (w) {
@@ -96,6 +103,9 @@ battleship.prototype.setBBoard = function (w) {
         return new Error("Trying to set board, but game status is %s", this.gameState);
     }
     this.playerBboard = w;
+    this.boards++;
+    console.log("SET");
+    return this.boards;
 };
 
 battleship.prototype.getAboard = function () {
@@ -111,6 +121,7 @@ battleship.prototype.shoot = function (cordY, cordX, player) {
         if (board[cordY][cordX] == 1) {
             board[cordY][cordX] = 3;
             this.setBBoard(board);
+            this.AHIT++;
             return 1;
         }
         else if (board[cordY][cordX] == 2){
@@ -130,6 +141,7 @@ battleship.prototype.shoot = function (cordY, cordX, player) {
         if (board[cordY][cordX] == 1) {
             board[cordY][cordX] = 3;
             this.setABoard(board);
+            this.BHit++;
             return 1;
         }
         else if (board[cordY][cordX] == 2){

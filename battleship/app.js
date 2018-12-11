@@ -98,10 +98,14 @@ wss.on("connection", function connection(ws) {
         console.log(incomingMsg.type);
         if (incomingMsg.type == messages.T_SHIP_SETUP) {
             if (incomingMsg.player == "A") {
-                currentGame.setABoard(incomingMsg.data);
+
+                websockets[incomingMsg.id].setABoard(incomingMsg.data);
+                console.log(websockets[incomingMsg.id].board);
+                console.log(websockets[incomingMsg.id].getAboard());
             }
             else if(incomingMsg.player == "B"){
-                currentGame.setBBoard(incomingMsg.data);
+                if(currentGame.setBBoard(incomingMsg.data)==2)
+                    con.send(messages.S_YOUR_TURN);
             }
         }
 
