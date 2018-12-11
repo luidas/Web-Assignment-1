@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Battleship: a two player game</title>
     <link rel="stylesheet" href="stylesheets/game.css">
 </head>
 
 <body>
-    <h1 id=status>Battleship</h1>
+
     <main>
-        <span id="playerside">
+        <div id=center>
+            <img src="Capture.png" alt="Game logo">
+            <h2 id=status>Battleship</h2>
             <span id="status">
                 <span id="statusbar"></span>
             </span>
+        </div>
+        <span id="playerside">
+
 
             <table id="playergrid" border=3px>
                 <tr>
@@ -169,8 +175,8 @@
             Time Elapsed:
         </span>
 
-            
-            <button type="submit" id="ready">Ready</button>
+
+        <button type="submit" id="ready">Ready</button>
         <span id="opponentside">
 
             <table id="opponentgrid" border=3px>
@@ -321,9 +327,10 @@
             </table>
         </span>
     </main>
-    
+
 </body>
 
 <script src="javascripts/game.js"></script>
 <script src="javascripts/messages.js"></script>
+
 </html>

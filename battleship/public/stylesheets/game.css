@@ -14,3 +14,14 @@ td {
   text-align: center; 
 }
 
+#opponentgrid{
+  position: relative;
+  float: right;
+  bottom: 400px;
+  
+}
+
+#center{
+  margin: auto;
+  text-align: center;
+}
