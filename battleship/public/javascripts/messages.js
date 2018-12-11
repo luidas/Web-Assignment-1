@@ -10,18 +10,13 @@
     };
 
     /*
-    Server to client: ship placement
-    */
-    exports.O_CHOOSE = { type: "PLACE-SHIPS" };
-    exports.S_CHOOSE = JSON.stringify(exports.O_CHOOSE);
-
-    /*
         * Server to client: set as player A 
         */
     exports.T_PLAYER_TYPE = "PLAYER-TYPE";
     exports.O_PLAYER_A = {
         type: exports.T_PLAYER_TYPE,
-        data: "A"
+        data: "A",
+        id: null
     };
     exports.S_PLAYER_A = JSON.stringify(exports.O_PLAYER_A);
 
@@ -30,22 +25,12 @@
      */
     exports.O_PLAYER_B = {
         type: exports.T_PLAYER_TYPE,
-        data: "B"
+        data: "B",
+        id: null
     };
     exports.S_PLAYER_B = JSON.stringify(exports.O_PLAYER_B);
 
-    exports.T_PLAYER_COUNT = "PLAYER-COUNT";
-    exports.O_PLAYER_COUNT = {
-        type: exports.T_PLAYER_COUNTs,
-        data: null
-    };
-
-
-    exports.T_SHIP_SETUP_DONE = "SHIP_SETUP_DONE";
-    exports.O_SHIP_SETUP_DONE = {
-        type: exports.T_SHIP_SETUP,
-        data: null
-    };
+    
     /* 
      * Player to server or server to player: this is the ship placement 
      */
@@ -55,12 +40,7 @@
         data: null,
         player: null
     };
-
-    exports.T_SHIP_SETUP = "SET-SHIPS";
-    exports.O_SHIP_SETUP = {
-        type: exports.T_SHIP_SETUP,
-        data: null
-    };
+    
     /* 
      * Player to server OR server to Player: guessed tile 
      */

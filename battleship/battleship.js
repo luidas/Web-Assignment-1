@@ -24,7 +24,7 @@ battleship.prototype.transitionStates["ABORTED"] = 6;
  * Not all game states can be transformed into each other;
  * the matrix contains the valid transitions.
  * They are checked each time a state change is attempted.
- */ 
+ */
 battleship.prototype.transitionMatrix = [
     [0, 1, 0, 0, 0, 0, 0],   //0 JOINT
     [1, 0, 1, 0, 0, 0, 0],   //1 JOINT
@@ -36,15 +36,15 @@ battleship.prototype.transitionMatrix = [
 ];
 
 battleship.prototype.isValidTransition = function (from, to) {
-    
+
     console.assert(typeof from == "string", "%s: Expecting a string, got a %s", arguments.callee.name, typeof from);
     console.assert(typeof to == "string", "%s: Expecting a string, got a %s", arguments.callee.name, typeof to);
-    console.assert( from in battleship.prototype.transitionStates == true, "%s: Expecting %s to be a valid transition state", arguments.callee.name, from);
-    console.assert( to in battleship.prototype.transitionStates == true, "%s: Expecting %s to be a valid transition state", arguments.callee.name, to);
+    console.assert(from in battleship.prototype.transitionStates == true, "%s: Expecting %s to be a valid transition state", arguments.callee.name, from);
+    console.assert(to in battleship.prototype.transitionStates == true, "%s: Expecting %s to be a valid transition state", arguments.callee.name, to);
 
 
     let i, j;
-    if (! (from in battleship.prototype.transitionStates)) {
+    if (!(from in battleship.prototype.transitionStates)) {
         return false;
     }
     else {
@@ -78,7 +78,7 @@ battleship.prototype.setStatus = function (w) {
     }
 };
 
-battleship.prototype.setAboard = function (w) {
+battleship.prototype.setABoard = function (w) {
 
     //two possible options for the current game state:
     //1 JOINT, 2 JOINT
@@ -88,7 +88,7 @@ battleship.prototype.setAboard = function (w) {
     this.playerAboard = w;
 };
 
-battleship.prototype.setbboard = function (w) {
+battleship.prototype.setBBoard = function (w) {
 
     //two possible options for the current game state:
     //1 JOINT, 2 JOINT
@@ -98,13 +98,53 @@ battleship.prototype.setbboard = function (w) {
     this.playerBboard = w;
 };
 
-battleship.prototype.getAboard = function(){
+battleship.prototype.getAboard = function () {
     return this.playerAboard;
 };
 
-battleship.prototype.getBboard = function(){
+battleship.prototype.getBboard = function () {
     return this.playerBboard;
 };
+battleship.prototype.shoot = function (cordY, cordX, player) {
+    if (player == "A") {
+        let board = this.getBBoard;
+        if (board[cordY][cordX] == 1) {
+            board[cordY][cordX] = 3;
+            this.setBBoard(board);
+            return 1;
+        }
+        else if (board[cordY][cordX] == 2){
+            board[cordY][cordX] = 4;
+            this.setBBoard(board);
+            return 2;
+        }
+        else if (board[cordY][cordX] == 3){
+            return 3;
+        }
+        else if (board[cordY][cordX] == 4){
+            return 4;
+        }
+    }
+    else if (player == "B") {
+        let board = this.getABoard();
+        if (board[cordY][cordX] == 1) {
+            board[cordY][cordX] = 3;
+            this.setABoard(board);
+            return 1;
+        }
+        else if (board[cordY][cordX] == 2){
+            board[cordY][cordX] = 4;
+            this.setABoard(board);
+            return 2;
+        }
+        else if (board[cordY][cordX] == 3){
+            return 3;
+        }
+        else if (board[cordY][cordX] == 4){
+            return 4;
+        }
+    }
+}
 
 battleship.prototype.hasTwoConnectedPlayers = function () {
     return (this.gameState == "2 JOINT");
@@ -120,9 +160,9 @@ battleship.prototype.addPlayer = function (p) {
 
     /*
      * revise the game state
-     */ 
+     */
     var error = this.setStatus("1 JOINT");
-    if(error instanceof Error){
+    if (error instanceof Error) {
         this.setStatus("2 JOINT");
     }
 

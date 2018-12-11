@@ -1,21 +1,3 @@
-function GameState() {
-    this.playerType = null;
-}
-
-var gs = new GameState();
-
-var socket = new WebSocket("ws://localhost:3000");
-socket.onmessage = function (event) {
-    console.log(event);
-    let incomingMsg = JSON.parse(event.data);
-    //set player type
-
-    if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
-        gs.playerType = incomingMsg.data;//should be "A" or "B";
-        
-    }
-}
-
 // Creating variables for the board creation
 var playerBoard = document.getElementById('playergrid');
 var opponentBoard = document.getElementById('opponentgrid');
@@ -33,7 +15,35 @@ var boxes = [];
 var playergrid = new Array(10);
 var opponentgrid = new Array(10);
 var readyButton = document.getElementById("ready");
-readyButton.disabled = true;
+
+function GameState() {
+    this.playerType = null;
+    this.conId = null;
+}
+
+var gs = new GameState();
+
+var socket = new WebSocket("ws://localhost:3000");
+socket.onmessage = function (event) {
+    console.log(event);
+    let incomingMsg = JSON.parse(event.data);
+    //set player type
+
+    if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
+        gs.playerType = incomingMsg.data;//should be "A" or "B";
+        gs.conId = incomingMsg.id;
+        console.log(gs.conId);
+    }
+}
+readyButton.disabled = false;
+readyButton.onclick = function sendFleet() {
+    let msg = Messages.O_SHIP_SETUP;
+    msg.data = testBoard;
+    msg.player = gs.playerType;
+    socket.send(JSON.stringify(msg));
+}
+
+
 
 // Creating a board array for players ships.
 var testBoard = [
@@ -512,13 +522,8 @@ function place(e) {
                             if (testBoard[i][j] == 0) {
                                 testBoard[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
-                                readyButton.disabled = false;
-                                readyButton.onclick = function sendFleet(){
-                                    let msg = Messages.T_SHIP_SETUP;
-                                    msg.data = testBoard;
-                                    msg.player = gs.playerType;
-                                    socket.send(JSON.stringify(msg));
-                                }
+
+
                             }
                         }
                     }
@@ -534,3 +539,4 @@ function place(e) {
         }
     }
 }
+
