@@ -26,7 +26,7 @@ height : 30px;
 text-align: center; 
 }
 
-.tile :hover{
+.tile:hover{
   background-color: yellow;
 }
 
@@ -68,6 +68,10 @@ bottom: 200px;
 left: 10px;
 }
 
+button:active{
+  box-shadow: inset 0 0 0 50px rgba(0, 0, 0, 0.2);
+}
+
 @keyframes hitted {
   from {background-color: white;}
   to {background-color: red;}
@@ -76,4 +80,8 @@ left: 10px;
 @keyframes missed {
   from {background-color: white;}
   to {background-color: blue;}
+}
+
+#qwer{
+  position: absolute;
 }
