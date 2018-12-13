@@ -106,6 +106,9 @@ wss.on("connection", function connection(ws) {
                 con.send(messages.S_GAME_WON);
 
                 websockets[incomingMsg.id].getPlayer("B").send(messages.S_GAME_LOST);
+                websockets[incomingMsg.id].setStatus(answer);
+                gameStatus.gamesCompleted++;
+
             }
             else if (answer == "B WON") {
 
@@ -114,6 +117,9 @@ wss.on("connection", function connection(ws) {
                 con.send(JSON.stringify(msg));
                 con.send(messages.S_GAME_WON);
                 websockets[incomingMsg.id].getPlayer("A").send(messages.S_GAME_LOST);
+
+                websockets[incomingMsg.id].setStatus(answer);
+                gameStatus.gamesCompleted++;
             }
             else {
                 let shootans = messages.O_HIT;

@@ -18,8 +18,8 @@ battleship.prototype.transitionStates = {};
 battleship.prototype.transitionStates["0 JOINT"] = 0;
 battleship.prototype.transitionStates["1 JOINT"] = 1;
 battleship.prototype.transitionStates["2 JOINT"] = 2;
-battleship.prototype.transitionStates["A"] = 3; //A won
-battleship.prototype.transitionStates["B"] = 4; //B won
+battleship.prototype.transitionStates["A WON"] = 3; //A won
+battleship.prototype.transitionStates["B WON"] = 4; //B won
 battleship.prototype.transitionStates["ABORTED"] = 5;
 
 /*
