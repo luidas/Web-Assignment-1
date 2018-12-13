@@ -62,10 +62,6 @@ wss.on("connection", function connection(ws) {
         con.send(JSON.stringify(msg));
     }
 
-    if (!currentGame.hasTwoConnectedPlayers()) {
-        let msg = messages.T_WAITING;
-        con.send(JSON.stringify(msg));
-    }
 
     /*
      * once we have two players, there is no way back; 
@@ -76,7 +72,6 @@ wss.on("connection", function connection(ws) {
         currentGame = new Battleship(gameStatus.gamesInitialized++);
 
     }
-
     con.on("message", function incoming(message) {
 
         let incomingMsg = JSON.parse(message);
@@ -87,55 +82,59 @@ wss.on("connection", function connection(ws) {
 
                 websockets[incomingMsg.id].setABoard(incomingMsg.data);
                 if (websockets[incomingMsg.id].getBoards() == 2) {
-                    con.send(messages.S_YOUR_TURN);
+                    con.send(messages.S_YOU_START);
+
+                    websockets[incomingMsg.id].getPlayer("B").send(messages.S_OP_STARTS);
                 }
             }
             else if (incomingMsg.player == "B") {
 
                 websockets[incomingMsg.id].setBBoard(incomingMsg.data);
                 if (websockets[incomingMsg.id].getBoards() == 2) {
-                    con.send(messages.S_YOUR_TURN);
+                    con.send(messages.S_YOU_START);
+                    websockets[incomingMsg.id].getPlayer("A").send(messages.S_OP_STARTS);
                 }
             }
         }
         else if (incomingMsg.type == messages.T_SHOOT) {
             var answer = websockets[incomingMsg.id].shoot(incomingMsg.cordY, incomingMsg.cordX, incomingMsg.player);
+            console.log(answer);
             if (answer == "A WON") {
                 let msg = messages.O_SHOOT_ANSWER;
                 msg.data = 1;
                 con.send(JSON.stringify(msg));
                 con.send(messages.S_GAME_WON);
 
+                websockets[incomingMsg.id].getPlayer("B").send(messages.S_GAME_LOST);
             }
             else if (answer == "B WON") {
-                
+
                 let msg = messages.O_SHOOT_ANSWER;
                 msg.data = 1;
                 con.send(JSON.stringify(msg));
-                con.send(messages.S_GAME_WON)
+                con.send(messages.S_GAME_WON);
+                websockets[incomingMsg.id].getPlayer("A").send(messages.S_GAME_LOST);
             }
             else {
+                let shootans = messages.O_HIT;
+                shootans.data = answer;
+                shootans.cordY = incomingMsg.cordY;
+                shootans.cordX = incomingMsg.cordX;
                 let msg = messages.O_SHOOT_ANSWER;
                 msg.data = answer;
                 con.send(JSON.stringify(msg));
-                    if (incomingMsg.player == "A") {
-                        let shootans = messages.O_HIT;
-                        shootans.data = answer;
-                        shootans.cordY = incomingMsg.cordY;
-                        shootans.cordX = incomingMsg.cordX;
-                        websockets[incomingMsg.id].getPlayer("B").send(JSON.stringify(shootans));
-                        if (answer == 2) {
-                            websockets[incomingMsg.id].getPlayer("B").send(messages.S_YOUR_TURN);
-                        }
+                if (incomingMsg.player == "A") {
+                    websockets[incomingMsg.id].getPlayer("B").send(JSON.stringify(shootans));
+                    if (answer == 2) {
+                        websockets[incomingMsg.id].getPlayer("B").send(messages.S_YOUR_TURN);
                     }
-                    else if (incomingMsg.player == "B") {
-                        let shootans = messages.O_HIT;
-                        shootans.data = answer;
-                        websockets[incomingMsg.id].getPlayer("A").send(JSON.stringify(shootans));
-                        if(answer == 2){
-                            websockets[incomingMsg.id].getPlayer("A").send(messages.S_YOUR_TURN);
-                        }
+                }
+                else if (incomingMsg.player == "B") {
+                    websockets[incomingMsg.id].getPlayer("A").send(JSON.stringify(shootans));
+                    if (answer == 2) {
+                        websockets[incomingMsg.id].getPlayer("A").send(messages.S_YOUR_TURN);
                     }
+                }
             }
 
         }

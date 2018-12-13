@@ -7,8 +7,21 @@
     };
     exports.S_YOUR_TURN = JSON.stringify(exports.O_YOUR_TURN);
 
+    exports.T_YOU_START = "YOU-START";
+    exports.O_YOU_START = {
+        type: exports.T_YOU_START,
+        data: null
+    };
+    exports.S_YOU_START = JSON.stringify(exports.O_YOU_START);
 
-    exports.T_SHOOT = "SHOOT";  
+    exports.T_OP_STARTS = "OP-STARTS";
+    exports.O_OP_STARTS = {
+        type: exports.T_OP_STARTS,
+        data: null
+    };
+    exports.S_OP_STARTS = JSON.stringify(exports.O_OP_STARTS);
+
+    exports.T_SHOOT = "SHOOT";
     exports.O_SHOOT = {
         type: exports.T_SHOOT,
         id: null,
@@ -17,15 +30,15 @@
         player: null
     };
 
-    exports.T_SHOOT_ANSWER = "SHOOT-ANSWER";  
+    exports.T_SHOOT_ANSWER = "SHOOT-ANSWER";
     exports.O_SHOOT_ANSWER = {
         type: exports.T_SHOOT_ANSWER,
         data: null
     };
 
-    exports.T_HIT = "SHOOT-ANSWER";  
+    exports.T_HIT = "HIT";
     exports.O_HIT = {
-        type: exports.T_SHOOT_ANSWER,
+        type: exports.T_HIT,
         data: null,
         cordX: null,
         cordY: null
@@ -53,7 +66,7 @@
     };
     exports.S_PLAYER_B = JSON.stringify(exports.O_PLAYER_B);
 
-    
+
     /* 
      * Player to server or server to player: this is the ship placement 
      */
@@ -64,7 +77,7 @@
         player: null,
         id: null
     };
-    
+
 
 
     /*
@@ -79,13 +92,13 @@
     /* 
      * Server to Player A & B: game over with result won/loss 
      */
-    exports.T_GAME_OVER = "GAME-OVER";
-    exports.O_GAME_OVER = {
-        type: exports.T_GAME_OVER,
+    exports.T_GAME_LOST = "GAME-LOST";
+    exports.O_GAME_LOST = {
+        type: exports.T_GAME_LOST,
         data: null
     };
-    
-    exports.S_GAME_OVER = JSON.stringify(exports.O_GAME_OVER);
+
+    exports.S_GAME_LOST = JSON.stringify(exports.O_GAME_LOST);
     /* 
      * Server to Player A & B: game over with result won/loss 
      */
@@ -95,14 +108,8 @@
         data: null
     };
     exports.S_GAME_WON = JSON.stringify(exports.O_GAME_WON);
-    
 
-    /* 
-     * Server to Player A & B: game over with result won/loss 
-     */
-    exports.T_WAITING = "WAITING";
 
-    exports.S_WAITING = JSON.stringify(exports.T_WAITING);
 
 
 }(typeof exports === "undefined" ? this.Messages = {} : exports));

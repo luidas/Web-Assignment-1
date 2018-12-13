@@ -30,7 +30,7 @@ battleship.prototype.transitionStates["ABORTED"] = 5;
 battleship.prototype.transitionMatrix = [
     [0, 1, 0, 0, 0, 0],   //0 JOINT
     [1, 0, 1, 0, 0, 0],   //1 JOINT
-    [0, 0, 0, 0, 0, 1],   //2 JOINT (note: once we have two players, there is no way back!)
+    [0, 0, 0, 1, 1, 1],   //2 JOINT (note: once we have two players, there is no way back!)
     [0, 0, 0, 0, 0, 0],   //A WON
     [0, 0, 0, 0, 0, 0],   //B WON
     [0, 0, 0, 0, 0, 0]    //ABORTED
@@ -119,7 +119,6 @@ battleship.prototype.shoot = function (cordY, cordX, player) {
             board[cordY][cordX] = 3;
             this.setBBoard(board);
             this.AHit++;
-            
             if (this.getHit("A") == 20){
                 return "A WON";
             }
@@ -170,7 +169,7 @@ battleship.prototype.getHit = function (letter) {
         return this.AHit;
     }
     else if (letter == "B") {
-        return this.Bhit;
+        return this.BHit;
     }
 }
 battleship.prototype.addPlayer = function (p) {
