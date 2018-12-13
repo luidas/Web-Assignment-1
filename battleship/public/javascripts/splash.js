@@ -7,7 +7,3 @@ function addLink() {
     window.location.href = "/play?name=" + nickname.value;
     }
 }
-var i = 6
-a = 5;
-console.log(a);
-console.log(i);

@@ -53,8 +53,15 @@ socket.onmessage = function (event) {
 
             opponentBoard.removeEventListener("click", shoot, false);
         }
+    }
+    else if (incomingMsg.type == Messages.T_HIT){
+        if (incomingMsg.data == 1) {
+            opponentgrid[incomingMsg.cordY][incomingMsg.cordX].className = "hit";
+        }
+        else if (incomingMsg.data == 2) {
+            opponentgrid[incomingMsg.cordY][incomingMsg.cordX].className = "miss";
 
-
+        }
     }
 }
 
@@ -539,8 +546,9 @@ function place(e) {
                                     msg.player = gs.playerType;
                                     msg.id = gs.conId;
                                     socket.send(JSON.stringify(msg));
-                                }
+
                                 resetButton.disabled = true;
+                                }
 
                             }
                         }

@@ -23,6 +23,14 @@
         data: null
     };
 
+    exports.T_HIT = "SHOOT-ANSWER";  
+    exports.O_HIT = {
+        type: exports.T_SHOOT_ANSWER,
+        data: null,
+        cordX: null,
+        cordY: null
+    };
+
     /*
         * Server to client: set as player A 
         */

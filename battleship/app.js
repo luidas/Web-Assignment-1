@@ -118,14 +118,24 @@ wss.on("connection", function connection(ws) {
                 let msg = messages.O_SHOOT_ANSWER;
                 msg.data = answer;
                 con.send(JSON.stringify(msg));
-                if (answer == 2) {
                     if (incomingMsg.player == "A") {
-                        websockets[incomingMsg.id].getPlayer("B").send(messages.S_YOUR_TURN);
+                        let shootans = messages.O_HIT;
+                        shootans.data = answer;
+                        shootans.cordY = incomingMsg.cordY;
+                        shootans.cordX = incomingMsg.cordX;
+                        websockets[incomingMsg.id].getPlayer("B").send(JSON.stringify(shootans));
+                        if (answer == 2) {
+                            websockets[incomingMsg.id].getPlayer("B").send(messages.S_YOUR_TURN);
+                        }
                     }
                     else if (incomingMsg.player == "B") {
-                        websockets[incomingMsg.id].getPlayer("A").send(messages.S_YOUR_TURN);
+                        let shootans = messages.O_HIT;
+                        shootans.data = answer;
+                        websockets[incomingMsg.id].getPlayer("A").send(JSON.stringify(shootans));
+                        if(answer == 2){
+                            websockets[incomingMsg.id].getPlayer("A").send(messages.S_YOUR_TURN);
+                        }
                     }
-                }
             }
 
         }
