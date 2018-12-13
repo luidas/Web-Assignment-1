@@ -15,15 +15,18 @@ font-family: 'Courier New', Courier, monospace;
   animation-fill-mode: forwards
 }
 .miss{
-  background: lightblue;
+  animation-name: missed;
+  animation-duration: 4s;
+  animation-fill-mode: forwards
 }
+
 td {
 width : 30px;
 height : 30px;
 text-align: center; 
 }
 
-.tile:hover{
+.tile :hover{
   background-color: yellow;
 }
 
@@ -68,4 +71,9 @@ left: 10px;
 @keyframes hitted {
   from {background-color: white;}
   to {background-color: red;}
+}
+
+@keyframes missed {
+  from {background-color: white;}
+  to {background-color: blue;}
 }
