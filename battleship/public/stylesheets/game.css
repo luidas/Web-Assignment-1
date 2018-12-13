@@ -21,6 +21,10 @@ height : 30px;
 text-align: center; 
 }
 
+td:hover{
+  background-color: yellow;
+}
+
 #playergrid{
 position: relative;
 bottom: 200px;

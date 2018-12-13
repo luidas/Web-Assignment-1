@@ -2,6 +2,7 @@
     span#playerside{
         -webkit-user-select: none;
     }
+
   td {
     width : 30px;
     height : 30px;
@@ -13,7 +14,7 @@
   text-align: center;
  }
  
- #righttop{
+ #righttop{ 
   position: absolute;
   right: 100px;
   top: 50px;
