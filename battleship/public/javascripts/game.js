@@ -18,9 +18,15 @@ var opponentgrid = new Array(10);
 var readyButton = document.getElementById("ready");
 var statusbar = document.getElementById("statusbar");
 var resetButton = document.getElementById("reset");
-statusbar.appendChild(document.createTextNode("Place your ships"));
-readyButton.disabled = true;
+var placeShips = document.createTextNode("Place your ships");
+var yourTurn = document.createTextNode("Your turn");
+var waiting = document.createTextNode("Waiting for opponent");
+var opTurn = document.createTextNode("Opponents turn");
+var gameWon = document.createTextNode("You won!");
+var gameLost = document.createTextNode("You lost..");
+statusbar.appendChild(placeShips);
 
+readyButton.disabled = true;
 
 function GameState() {
     this.playerType = null;
@@ -43,6 +49,18 @@ socket.onmessage = function (event) {
     }
     else if (incomingMsg.type == Messages.T_YOUR_TURN) {
         opponentBoard.addEventListener("click", shoot, false);
+        statusbar.removeChild(opTurn);
+        statusbar.appendChild(yourTurn);
+
+    }
+    else if (incomingMsg.type == Messages.T_YOU_START){
+        statusbar.removeChild(waiting);
+        opponentBoard.addEventListener("click", shoot, false);
+        statusbar.appendChild(yourTurn);
+    }
+    else if (incomingMsg.type == Messages.T_OP_STARTS){
+        statusbar.removeChild(waiting);
+        statusbar.appendChild(opTurn);
     }
     else if (incomingMsg.type == Messages.T_SHOOT_ANSWER) {
         if (incomingMsg.data == 1) {
@@ -50,11 +68,12 @@ socket.onmessage = function (event) {
         }
         else if (incomingMsg.data == 2) {
             document.getElementById(id).className = "miss";
-
+            statusbar.removeChild(yourTurn);
+            statusbar.appendChild(opTurn);
             opponentBoard.removeEventListener("click", shoot, false);
         }
     }
-    else if (incomingMsg.type == Messages.T_HIT){
+    else if (incomingMsg.type == Messages.T_HIT) {
         if (incomingMsg.data == 1) {
             opponentgrid[incomingMsg.cordY][incomingMsg.cordX].className = "hit";
         }
@@ -62,6 +81,15 @@ socket.onmessage = function (event) {
             opponentgrid[incomingMsg.cordY][incomingMsg.cordX].className = "miss";
 
         }
+    }
+    else if (incomingMsg.type == Messages.T_GAME_WON){
+        statusbar.removeChild(yourTurn);
+        statusbar.appendChild(gameWon);
+        opponentBoard.removeEventListener("click", shoot, false);
+    }
+    else if (incomingMsg.type == Messages.T_GAME_LOST){
+        statusbar.removeChild(opTurn)
+        statusbar.appendChild(gameLost);
     }
 }
 
@@ -110,8 +138,8 @@ playerBoard.addEventListener("mousedown", select, false);
 playerBoard.addEventListener("mouseup", place);
 
 resetButton.onclick = function reset() {
-    for(var i = 0; i < playerShips.length; i++){
-        for(var j = 0; j < playerShips[i].length; j++){
+    for (var i = 0; i < playerShips.length; i++) {
+        for (var j = 0; j < playerShips[i].length; j++) {
             playerShips[i][j] = 0;
             playergrid[i][j].style.background = "#FFFFFF";
         }
@@ -539,6 +567,7 @@ function place(e) {
                             if (playerShips[i][j] == 0) {
                                 playerShips[i][j] = 2;
                                 playergrid[i][j].style.background = "#86E7F6";
+
                                 readyButton.disabled = false;
                                 readyButton.onclick = function sendFleet() {
                                     let msg = Messages.O_SHIP_SETUP;
@@ -546,8 +575,11 @@ function place(e) {
                                     msg.player = gs.playerType;
                                     msg.id = gs.conId;
                                     socket.send(JSON.stringify(msg));
-
-                                resetButton.disabled = true;
+                                    statusbar.removeChild(placeShips);
+                                    statusbar.appendChild(waiting);
+                                    resetButton.disabled = true;
+                                    readyButton.disabled = true;
+                                    readyButton.onclick = null;
                                 }
 
                             }
