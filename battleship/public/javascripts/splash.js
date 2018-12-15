@@ -11,5 +11,5 @@ function addLink() {
 
 document.cookie+=".";
 var cookieValue = document.cookie.split("=")[1];
-visits.append(document.createTextNode("Visit number: " + document.cookie.length.toString()));
+visits.append(document.createTextNode("You have visited this site " + document.cookie.length.toString() + " times."));
 //console.log(document.cookie);

@@ -21,6 +21,12 @@
     };
     exports.S_OP_STARTS = JSON.stringify(exports.O_OP_STARTS);
 
+    exports.T_PLAYER_NAME = "PLAYER-NAME";
+    exports.O_PLAYER_NAME = {
+        type: exports.T_PLAYER_NAME,
+        data: null
+    };
+
     exports.T_SHOOT = "SHOOT";
     exports.O_SHOOT = {
         type: exports.T_SHOOT,

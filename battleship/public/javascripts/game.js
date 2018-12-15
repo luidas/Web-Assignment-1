@@ -45,7 +45,11 @@ socket.onmessage = function (event) {
     if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
         gs.playerType = incomingMsg.data;//should be "A" or "B";
         gs.conId = incomingMsg.id;
-        console.log(gs.conId);
+        var url = new URL(window.location.href);
+        gs.name = url.searchParams.get("name");
+        let message = Messages.T_PLAYER_NAME;
+        message.data = url.searchParams.get("name");
+        socket.send(JSON.stringify(message));
     }
     else if (incomingMsg.type == Messages.T_YOUR_TURN) {
         opponentBoard.addEventListener("click", shoot, false);
