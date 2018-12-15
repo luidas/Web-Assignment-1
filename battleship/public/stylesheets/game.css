@@ -42,10 +42,6 @@ bottom: 600px;
 }
 
 
-#time::after{
-content: "Time Elapsed:";
-}
-
 #statusbar::before{
 content: "Status: ";
 }
