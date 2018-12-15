@@ -12,8 +12,10 @@ var app = express();
 
 app.use(express.static(__dirname + "/public"));
 
+app.set('view engine', 'ejs');
+
 app.get("/", function (req, res) {
-    res.sendFile("splash.html", { root: "./public" });
+    res.render('splash.ejs', { gamesInitialized: gameStatus.gamesInitialized, gamesCompleted: gameStatus.gamesCompleted });
 });
 
 app.get("/play", function (req, res) {

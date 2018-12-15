@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Battleship: a two player game</title>
+    <link rel="stylesheet" href="stylesheets/splash.css">
+
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body>
+    <main>
+        <div id=center>
+            <img src="Capture.png" alt="Game logo">
+            <h1>Battleship</h1>
+            <h2>2 player game</h2>
+            <h3>Please enter your nickname:</h3>
+            <section id="startgame">
+                <input type="text" name+ "nickname" id="nickname"> <br>
+                <button type="submit" id="play">PLAY</button>
+            </section>
+        </div>
+
+
+        <section id="righttop">
+            <h3>Leaderboard</h3>
+        </section>
+
+        <div id=rightbottom>
+            <h3>
+                <%= gamesInitialized %>
+                <%if (gamesInitialized != 1) { %>
+                games
+                <% } else { %>
+                game
+                <% } %>
+                initialized,
+                <%= gamesCompleted %>
+                completed
+            </h3>
+            <!--<div id="GameStatistics"> Games currently being plyed:</div>-->
+            <!--<div id=totalGameStatistics>Total games played:</div>-->
+        </div>
+    </main>
+</body>
+
+<script type="text/javascript" src="javascripts/splash.js"></script>
+
+</html>
