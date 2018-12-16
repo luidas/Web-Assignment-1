@@ -15,7 +15,7 @@ a {
 }
 
 @media only screen and (max-width:600px) {
-  #status{
+  #status:after{
     content: "Resolution too small"
   }
 }
