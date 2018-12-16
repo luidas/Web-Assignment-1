@@ -33,18 +33,13 @@ text-align: center;
   background-color: yellow;
 }
 
-#playergrid{
+#playerside{
 position: relative;
-bottom: 200px;
+bottom: 176px;
 }
 
-#playergrid::before{
-  position: absolute;
-content: "Your name:";
-bottom: 400px;
-}
 
-#opponentgrid{
+#opponentside{
 position: relative;
 float: right;
 bottom: 600px;
@@ -52,10 +47,9 @@ bottom: 600px;
 #time::before{
   content:"Time elapsed:"
 }
-#opponentgrid::before{
-  position: absolute;
-  content : "Opponent's name:";
-  bottom: 400px;
+#opponentname{
+  position:relative;
+  left: 6px;
 }
 
 
@@ -74,18 +68,21 @@ padding: 5px;
 table{
 border: cadetblue
 }
-
+#playername{
+  position:relative;
+  left: 6px;
+}
 button{
   position: relative;
-  bottom: 200px;
-  left: 10px;
+  bottom: 176px;
+  left: 6px;
   width: auto;
   transition-property: width;
   transition-duration: 2s;
 }
 
 button:hover {
-  width: 10%;
+  width: 100px;
 }
 
 button:active{

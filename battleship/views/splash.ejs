@@ -4,7 +4,6 @@
 
 <head>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Battleship: a two player game</title>
     <link rel="stylesheet" href="stylesheets/splash.css">
 
@@ -12,6 +11,8 @@
 </head>
 
 <body>
+    
+        <div id=absolute>© Liustas</div>
     <main>
         <div id=center>
             <img src="Capture.png" alt="Game logo">
@@ -22,10 +23,12 @@
                 <input type="text" name+ "nickname" id="nickname"> <br>
                 <button type="submit" id="play">PLAY</button>
             </section>
+            <br><br>
+            <span id="resolution"></span>
         </div>
 
 
-        <div id=righttop>
+        <div id=rightbottom>
             <h3>
                 <%= gamesInitialized %>
                 <%if (gamesInitialized != 1) { %>
