@@ -30,6 +30,7 @@ var timeMinutes = 0;
 var timeText = document.createTextNode("0" + timeMinutes + ":0" + timeSeconds);
 
 timeElapsed.appendChild(timeText);
+var timer;
 
 function time() {
     timeSeconds++;
@@ -96,14 +97,14 @@ socket.onmessage = function (event) {
         opponentBoard.addEventListener("click", shoot, false);
         statusbar.appendChild(yourTurn);
 
-        setInterval(time, 1000);
+        timer = setInterval(time, 1000);
         document.getElementById("opponentname").appendChild(document.createTextNode(" " + incomingMsg.data));
     }
     else if (incomingMsg.type == Messages.T_OP_STARTS) {
         statusbar.removeChild(waiting);
         statusbar.appendChild(opTurn);
 
-        setInterval(time, 1000);
+        timer = setInterval(time, 1000);
         document.getElementById("opponentname").appendChild(document.createTextNode(" " + incomingMsg.data));
     }
     else if (incomingMsg.type == Messages.T_SHOOT_ANSWER) {
@@ -130,10 +131,14 @@ socket.onmessage = function (event) {
         statusbar.removeChild(yourTurn);
         statusbar.appendChild(gameWon);
         opponentBoard.removeEventListener("click", shoot, false);
+        
+        clearInterval(timer);
     }
     else if (incomingMsg.type == Messages.T_GAME_LOST) {
         statusbar.removeChild(opTurn)
         statusbar.appendChild(gameLost);
+        
+        clearInterval(timer);
     }
 }
 
