@@ -24,6 +24,35 @@ var waiting = document.createTextNode("Waiting for opponent");
 var opTurn = document.createTextNode("Opponents turn");
 var gameWon = document.createTextNode("You won!");
 var gameLost = document.createTextNode("You lost..");
+var timeElapsed = document.getElementById("time");
+var timeSeconds = 0;
+var timeMinutes = 0;
+var timeText = document.createTextNode("0" + timeMinutes + ":0" + timeSeconds);
+
+timeElapsed.appendChild(timeText);
+
+function time() {
+    timeSeconds++;
+    if (timeSeconds == 60) {
+        timeSeconds = 0;
+        timeMinutes++;
+    }
+    timeElapsed.removeChild(timeText);
+    if (timeSeconds < 10 && timeMinutes < 10) {
+        timeText = document.createTextNode("0" + timeMinutes + ":0" + timeSeconds);
+    }
+    else if (timeSeconds < 10) {
+        timeText = document.createTextNode(timeMinutes + ":0" + timeSeconds);
+    }
+    else if (timeMinutes < 10 ){
+        timeText = document.createTextNode("0" +timeMinutes + ":" + timeSeconds);
+    }
+    else timeText = document.createTextNode(timeMinutes + ":" + timeSeconds);
+    timeElapsed.appendChild(timeText);
+
+}
+setInterval(time, 1000);
+
 statusbar.appendChild(placeShips);
 
 readyButton.disabled = true;
@@ -48,15 +77,15 @@ socket.onmessage = function (event) {
         var url = new URL(window.location.href);
         gs.name = url.searchParams.get("name");
         var message = Messages.O_PLAYER_NAME;
-        
+
         message.name = url.searchParams.get("name");
         message.data = gs.playerType;
         message.id = gs.conId;
-        
+
         console.log(message.name);
         socket.send(JSON.stringify(message));
     }
-    else if(incomingMsg.type == Messages.OP_NAME){
+    else if (incomingMsg.type == Messages.OP_NAME) {
         console.log(incomingMsg.name);
     }
     else if (incomingMsg.type == Messages.T_YOUR_TURN) {
@@ -65,12 +94,12 @@ socket.onmessage = function (event) {
         statusbar.appendChild(yourTurn);
 
     }
-    else if (incomingMsg.type == Messages.T_YOU_START){
+    else if (incomingMsg.type == Messages.T_YOU_START) {
         statusbar.removeChild(waiting);
         opponentBoard.addEventListener("click", shoot, false);
         statusbar.appendChild(yourTurn);
     }
-    else if (incomingMsg.type == Messages.T_OP_STARTS){
+    else if (incomingMsg.type == Messages.T_OP_STARTS) {
         statusbar.removeChild(waiting);
         statusbar.appendChild(opTurn);
     }
@@ -94,12 +123,12 @@ socket.onmessage = function (event) {
 
         }
     }
-    else if (incomingMsg.type == Messages.T_GAME_WON){
+    else if (incomingMsg.type == Messages.T_GAME_WON) {
         statusbar.removeChild(yourTurn);
         statusbar.appendChild(gameWon);
         opponentBoard.removeEventListener("click", shoot, false);
     }
-    else if (incomingMsg.type == Messages.T_GAME_LOST){
+    else if (incomingMsg.type == Messages.T_GAME_LOST) {
         statusbar.removeChild(opTurn)
         statusbar.appendChild(gameLost);
     }
