@@ -1,6 +1,9 @@
 span#playerside{
   -webkit-user-select: none;
 }
+span#opponentside{
+  -webkit-user-select: none;
+}
 
 body {
 font-family: 'Courier New', Courier, monospace;
@@ -46,7 +49,9 @@ position: relative;
 float: right;
 bottom: 600px;
 }
-
+#time::before{
+  content:"Time elapsed:"
+}
 #opponentgrid::before{
   position: absolute;
   content : "Opponent's name:";
