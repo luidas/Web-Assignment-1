@@ -8,21 +8,15 @@ body:fullscreen{
   width: 110%;
 }
 
-td {
-  width : 5px;
-  height : 5px;
-}
+
 
 a {
   color: #00B7FF;
 }
 
 @media only screen and (max-width: 1000px) {
-  #status {
-    display: none;
-  }
-  #status::before{
-    content: "Resolution too small"
+  #status::after{
+    content: "YOUR RESOLUTION IS TOO SMALL"
   }
 }
 
