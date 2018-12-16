@@ -42,11 +42,11 @@ setInterval(function () {
         }
     }
 }, 50000);
-
+var currentGame;
 var connectionID = 0
 wss.on("connection", function connection(ws) {
     if(connectionID == 0){
-        var currentGame = new Battleship(gameStatus.gamesInitialized++);
+        currentGame = new Battleship(gameStatus.gamesInitialized++);
     }
     let con = ws;
     con.id = connectionID++;
