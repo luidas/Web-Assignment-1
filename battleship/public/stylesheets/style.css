@@ -18,7 +18,10 @@ a {
 }
 
 @media only screen and (max-width: 1000px) {
-  #status{
+  #status {
+    display: none;
+  }
+  #status::before{
     content: "Resolution too small"
   }
 }
