@@ -9,6 +9,8 @@ var battleship = function (gameID) {
     this.AHit = 0;
     this.BHit = 0;
     this.boards = 0;
+    this.playerAName = null;
+    this.playerBName = null;
 };
 
 /*
@@ -35,6 +37,13 @@ battleship.prototype.transitionMatrix = [
     [0, 0, 0, 0, 0, 0],   //B WON
     [0, 0, 0, 0, 0, 0]    //ABORTED
 ];
+
+battleship.prototype.setName = function(name, playerType){
+    if(playerType == "A"){
+        this.playerAName = name;
+    }
+    else this.playerBName = name;
+}
 
 battleship.prototype.isValidTransition = function (from, to) {
 

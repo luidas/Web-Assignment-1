@@ -12,19 +12,25 @@
         type: exports.T_YOU_START,
         data: null
     };
-    exports.S_YOU_START = JSON.stringify(exports.O_YOU_START);
 
     exports.T_OP_STARTS = "OP-STARTS";
     exports.O_OP_STARTS = {
         type: exports.T_OP_STARTS,
         data: null
     };
-    exports.S_OP_STARTS = JSON.stringify(exports.O_OP_STARTS);
 
     exports.T_PLAYER_NAME = "PLAYER-NAME";
     exports.O_PLAYER_NAME = {
         type: exports.T_PLAYER_NAME,
-        data: null
+        name: null,
+        data: null,
+        id: null
+    };
+
+    exports.T_OP_NAME = "OP-NAME";
+    exports.O_OP_NAME = {
+        type: exports.T_OP_NAME,
+        name: null,
     };
 
     exports.T_SHOOT = "SHOOT";
