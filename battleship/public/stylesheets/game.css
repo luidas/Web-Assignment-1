@@ -35,11 +35,22 @@ position: relative;
 bottom: 200px;
 }
 
+#playergrid::before{
+  position: absolute;
+content: "Your name:";
+bottom: 400px;
+}
 
 #opponentgrid{
 position: relative;
 float: right;
 bottom: 600px;
+}
+
+#opponentgrid::before{
+  position: absolute;
+  content : "Opponent's name:";
+  bottom: 400px;
 }
 
 
