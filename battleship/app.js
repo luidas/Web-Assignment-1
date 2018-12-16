@@ -79,22 +79,32 @@ wss.on("connection", function connection(ws) {
         let incomingMsg = JSON.parse(message);
 
         console.log("[LOG] " + incomingMsg.type);
-        if (incomingMsg.type == messages.T_SHIP_SETUP) {
+        if(incomingMsg.type == messages.T_PLAYER_NAME){
+            websockets[incomingMsg.id].setName(incomingMsg.name, incomingMsg.data);
+        }
+        else if (incomingMsg.type == messages.T_SHIP_SETUP) {
             if (incomingMsg.player == "A") {
 
                 websockets[incomingMsg.id].setABoard(incomingMsg.data);
                 if (websockets[incomingMsg.id].getBoards() == 2) {
-                    con.send(messages.S_YOU_START);
-
-                    websockets[incomingMsg.id].getPlayer("B").send(messages.S_OP_STARTS);
+                    var message = messages.O_YOU_START;
+                    message.data = websockets[incomingMsg.id].playerBName;
+                    con.send(JSON.stringify(message));
+                    message = messages.O_OP_STARTS;
+                    message.data = websockets[incomingMsg.id].playerAName;
+                    websockets[incomingMsg.id].getPlayer("B").send(JSON.stringify(message));
                 }
             }
             else if (incomingMsg.player == "B") {
 
                 websockets[incomingMsg.id].setBBoard(incomingMsg.data);
                 if (websockets[incomingMsg.id].getBoards() == 2) {
-                    con.send(messages.S_YOU_START);
-                    websockets[incomingMsg.id].getPlayer("A").send(messages.S_OP_STARTS);
+                    var message = messages.O_YOU_START;
+                    message.data = websockets[incomingMsg.id].playerAName;
+                    con.send(JSON.stringify(message));
+                    message = messages.O_OP_STARTS;
+                    message.data = websockets[incomingMsg.id].playerBName;
+                    websockets[incomingMsg.id].getPlayer("A").send(JSON.stringify(message));
                 }
             }
         }
