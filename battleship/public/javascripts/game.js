@@ -30,6 +30,7 @@ var timeMinutes = 0;
 var timeText = document.createTextNode("0" + timeMinutes + ":0" + timeSeconds);
 
 timeElapsed.appendChild(timeText);
+var timer;
 
 function time() {
     timeSeconds++;
@@ -44,14 +45,13 @@ function time() {
     else if (timeSeconds < 10) {
         timeText = document.createTextNode(timeMinutes + ":0" + timeSeconds);
     }
-    else if (timeMinutes < 10 ){
-        timeText = document.createTextNode("0" +timeMinutes + ":" + timeSeconds);
+    else if (timeMinutes < 10) {
+        timeText = document.createTextNode("0" + timeMinutes + ":" + timeSeconds);
     }
     else timeText = document.createTextNode(timeMinutes + ":" + timeSeconds);
     timeElapsed.appendChild(timeText);
 
 }
-setInterval(time, 1000);
 
 statusbar.appendChild(placeShips);
 
@@ -84,9 +84,7 @@ socket.onmessage = function (event) {
 
         console.log(message.name);
         socket.send(JSON.stringify(message));
-    }
-    else if (incomingMsg.type == Messages.OP_NAME) {
-        console.log(incomingMsg.name);
+        document.getElementById("playername").appendChild(document.createTextNode(" " + gs.name));
     }
     else if (incomingMsg.type == Messages.T_YOUR_TURN) {
         opponentBoard.addEventListener("click", shoot, false);
@@ -98,10 +96,16 @@ socket.onmessage = function (event) {
         statusbar.removeChild(waiting);
         opponentBoard.addEventListener("click", shoot, false);
         statusbar.appendChild(yourTurn);
+
+        timer = setInterval(time, 1000);
+        document.getElementById("opponentname").appendChild(document.createTextNode(" " + incomingMsg.data));
     }
     else if (incomingMsg.type == Messages.T_OP_STARTS) {
         statusbar.removeChild(waiting);
         statusbar.appendChild(opTurn);
+
+        timer = setInterval(time, 1000);
+        document.getElementById("opponentname").appendChild(document.createTextNode(" " + incomingMsg.data));
     }
     else if (incomingMsg.type == Messages.T_SHOOT_ANSWER) {
         if (incomingMsg.data == 1) {
@@ -127,10 +131,14 @@ socket.onmessage = function (event) {
         statusbar.removeChild(yourTurn);
         statusbar.appendChild(gameWon);
         opponentBoard.removeEventListener("click", shoot, false);
+        
+        clearInterval(timer);
     }
     else if (incomingMsg.type == Messages.T_GAME_LOST) {
         statusbar.removeChild(opTurn)
         statusbar.appendChild(gameLost);
+        
+        clearInterval(timer);
     }
 }
 

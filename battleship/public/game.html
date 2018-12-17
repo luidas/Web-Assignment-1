@@ -2,32 +2,34 @@
 <html>
 
 <head>
-    
+
     <title>Battleship: a two player game</title>
     <link rel="stylesheet" href="stylesheets/game.css">
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 
 <body>
-    <div id = absolute>© Liustas</div>
-    
+    <div id=absolute>© Liustas</div>
+
     <main>
-            
-          
+
+
         <div id=center>
 
             <img src="Capture.png" alt="Game logo">
-            <h2 id=status>Battleship</h2>
+            <h1 id=status>Battleship</h1>
             <span id="status">
-                <span id="statusbar"></span> <br>
-                <span id="time"> </span>
+                <span id="statusbar"></span> <br><br>
+                <span id="time"> </span> <br><br>
+                <span id="resolution"></span>
             </span>
-            
+
         </div>
-        
-       
+
+
         <span id="playerside">
-                
+                <span id="playername">
+                      Your name:</span><br>
             <table id="playergrid" border=3px>
                 <tr>
                     <td id="0" class="playergrid"></td>
@@ -181,13 +183,16 @@
             </table>
 
         </span>
-
-
         
         <button type="submit" id="ready">Ready</button>
 
         <button type="submit" id="reset">Reset</button>
+
+
         <span id="opponentside">
+            
+                <span id="opponentname">
+                        Opponent's name:</span><br>
             <table id="opponentgrid" border=3px>
                 <tr>
                     <td id="0" class="opponentgrid"></td>
@@ -335,7 +340,6 @@
                 </tr>
             </table>
         </span>
-        <div id = qwer></div>
     </main>
 
 </body>

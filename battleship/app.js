@@ -42,11 +42,12 @@ setInterval(function () {
         }
     }
 }, 50000);
-
-var currentGame = new Battleship(gameStatus.gamesInitialized++);
-var connectionID = 0;//each websocket receives a unique ID
-var count = 0
+var currentGame;
+var connectionID = 0
 wss.on("connection", function connection(ws) {
+    if(connectionID == 0){
+        currentGame = new Battleship(gameStatus.gamesInitialized++);
+    }
     let con = ws;
     con.id = connectionID++;
     let playerType = currentGame.addPlayer(con);
