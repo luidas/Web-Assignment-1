@@ -1,5 +1,13 @@
 # Battleships game
 ## Details
 The game is hosted on a Node.js server and all the communication is done through it.
+
+## Requirements
+The machine that is going to run the server should have Node.js installed.
+
 ## Usage
-You should first start the server and then connect to it either from your own machine using localhost or from an outside machine using the machines public ip address.
+You should first start the server using the command line, 
+```Node.js
+	# node app.js [desired port number]
+```
+and then connect to it either from your own machine with the port provided. The game can only start when there are 2 players connected but you can place your ships while you are waiting for an enemy to connect.
