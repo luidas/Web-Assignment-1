@@ -10,4 +10,4 @@ You should first start the server using the command line:
 ```Node.js
 	# node app.js [desired port number]
 ```
-Then you are able to connect to the game with the your IP address and the port provided. The game can only start when there are 2 players connected but you can place your ships while you are waiting for an enemy to connect.
+Then you are able to connect to the game from a browser with the your IP address and the port provided. The game can only start when there are 2 players connected but you can place your ships while you are waiting for an enemy to connect.
